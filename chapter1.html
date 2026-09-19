@@ -196,6 +196,17 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 .collapsible strong { color:var(--text); font-weight:700; }
 @keyframes fadeDown { from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);} }
 
+
+/* ── TASK / ÉNONCÉ BOX (CLEAR STATEMENT BEFORE SOLUTION) ── */
+.task-box { background: rgba(251, 113, 133, 0.08); border: 1px solid rgba(251, 113, 133, 0.35); border-left: 3px solid var(--example); border-radius: var(--radius); padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; margin: 6px 0 10px; }
+.task-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--example); }
+.task-text { font-size: 0.93rem; color: var(--text); line-height: 1.65; }
+.task-text ol, .task-text ul { margin-left: 20px; margin-top: 4px; display: flex; flex-direction: column; gap: 4px; }
+.task-text li { line-height: 1.55; color: var(--text-2); }
+.task-text strong { color: #fff; font-weight: 700; }
+.prop-box .task-box { background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.35); border-left: 3px solid var(--blue-bright); margin: 8px 0 10px; }
+.prop-box .task-badge { color: var(--blue-bright); }
+
 /* ── UNIFORM SOLUTION STEPS ── */
 .demo-step { display:flex; gap:14px; align-items:flex-start; padding:12px 0; border-bottom:1px solid var(--border); }
 .demo-step:last-child { border-bottom:none; padding-bottom:0; }
@@ -384,6 +395,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 1</div>
   <div class="example-subtitle">Location Game</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Formulate the game in normal form $\Gamma = (N, S, g)$: define players, strategy sets, and payoff functions; draw the payoff matrix; and determine why this strategic interaction constitutes a game.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$ (two players choosing where to meet).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \{L, C\}$, where $L$ = Location 1, $C$ = Location 2.</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text"><p>$g_1(L,L) = g_2(L,L) = 1$, $g_1(C,C) = g_2(C,C) = 1$, and $g_1(L,C) = g_2(L,C) = g_1(C,L) = g_2(C,L) = 0$. Both players have identical preferences: $g_1(s) = g_2(s)$ for all $s \in S$.</p></div></div>
@@ -404,6 +421,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 2</div>
   <div class="example-subtitle">Penalty Kick</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Model the penalty kick interaction as a normal form game $\Gamma = (N, S, g)$: identify the conflicting incentives of the penalty taker and goalkeeper, construct the payoff matrix, and verify constant-sum properties.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$, where Player 1 is the Penalty Taker (PT) and Player 2 is the Goalkeeper (GK).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \{L, R\}$, where $L$ = Left, $R$ = Right.</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text"><p>$g_1(L,R) = g_1(R,L) = 1$ (PT scores), $g_1(L,L) = g_1(R,R) = 0$ (saved). Conversely, $g_2(L,L) = g_2(R,R) = 1$ (GK saves), $g_2(L,R) = g_2(R,L) = 0$ (concedes). Notice that $g_1(s) + g_2(s) = 1$ for every profile $s \in S$.</p></div></div>
@@ -424,6 +447,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 3</div>
   <div class="example-subtitle">Prisoner's Dilemma</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Formalise the classic Prisoner's Dilemma: map prison sentences into numerical payoffs ($g_i = -\text{years}$), write down the payoff matrix, and explain the tension between individual rationality and social welfare.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$ (two suspects held in separate interrogation rooms).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \{C, D\}$, where $C$ = Cooperate (remain silent), $D$ = Defect (confess and betray partner).</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text"><p>Payoffs are measured as the negative of prison years (higher payoff = fewer years in prison):</p>
@@ -450,6 +479,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 4</div>
   <div class="example-subtitle">Battle of the Sexes</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Formulate the strategic interaction between two partners choosing between Opera and Football: represent payoffs in a $2 \times 2$ matrix, and highlight the combination of coordination and conflict.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$ (two partners selecting an evening activity).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \{O, F\}$, where $O$ = Opera, $F$ = Football.</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text"><p>$g(O,O) = (2, 1)$, $g(F,F) = (1, 2)$, and $g(O,F) = g(F,O) = (0, 0)$. Both players strictly prefer being together over being apart, but Player 1 prefers Opera while Player 2 prefers Football.</p></div></div>
@@ -470,6 +505,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 5</div>
   <div class="example-subtitle">Hawk-Dove</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Model animal or resource conflict under aggressive ($H$) and peaceful ($D$) behaviors: construct the normal form matrix and explain the anti-coordination nature of the payoffs.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$ (two competitors disputing a contested resource).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \{H, D\}$, where $H$ = Hawk (aggressive, fight until injured), $D$ = Dove (peaceful, display and yield if attacked).</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text"><p>$g(H,H) = (-1, -1)$ (severe mutual injury), $g(H,D) = (2, 0)$ (Hawk wins without injury), $g(D,H) = (0, 2)$ (Dove yields safely), and $g(D,D) = (1, 1)$ (resource shared peacefully).</p></div></div>
@@ -490,6 +531,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 6</div>
   <div class="example-subtitle">Stag Hunt</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Formalise the coordination problem between two hunters choosing between safe prey ($S$) and cooperative stag hunting ($D$): draw the matrix and analyse the tradeoff between payoff dominance and risk dominance.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$ (two hunters choosing an expedition).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \{S, D\}$, where $S$ = Safe (hunt a hare alone), $D$ = Deer / Stag (collaborate to hunt a large stag).</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text"><p>$g(D,D) = (2, 2)$ (successful cooperative hunt), $g(D,S) = (0, 1)$ (stag hunt fails alone; hare hunter succeeds), $g(S,D) = (1, 0)$, and $g(S,S) = (1, 1)$ (both safely hunt hares).</p></div></div>
@@ -510,6 +557,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 7</div>
   <div class="example-subtitle">Cournot Duopoly</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Formulate the Cournot duopoly as a continuous normal form game $\Gamma = (N, S, g)$: specify continuous strategy spaces $S_i = \mathbb{R}_+$, inverse demand $P = \max(13 - q_1 - q_2, 0)$, marginal cost $c$, and profit functions.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2\}$ (two rival firms producing a homogeneous product).</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text"><p>$S_1 = S_2 = \mathbb{R}_+$ (each firm $i$ chooses an output quantity $q_i \geq 0$).</p></div></div>
   <div><div class="example-section">3 · Payoffs / Payoff Function</div><div class="body-text">
@@ -529,6 +582,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 8</div>
   <div class="example-subtitle">Second-Price Auction (Vickrey Auction)</div>
+  <div class="task-box">
+    <div class="task-badge">📋 Game Formulation Task</div>
+    <div class="task-text">
+      Formulate the Vickrey auction mechanism: define continuous strategy spaces $S_i = \mathbb{R}_+$, private valuations $v_i$, competing bid notation $m_i(b)$, tie count $M(b)$, and the piecewise payoff function $g_i(b)$.
+    </div>
+  </div>
   <div><div class="example-section">1 · Players</div><div class="body-text"><p>$N = \{1, 2, \ldots, N\}$ with $N \geq 2$ bidders competing for a single indivisible object.</p></div></div>
   <div><div class="example-section">2 · Strategy Sets</div><div class="body-text">
     <p>$S_i = \mathbb{R}_+$ (each bidder submits a sealed bid $b_i \geq 0$).</p>
@@ -685,13 +744,22 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Dominance Analysis</div>
   <div class="example-subtitle">Location Game</div>
-  <div class="body-text"><p>Find all strictly dominated strategies, strictly dominant strategies, and the dominant strategy equilibrium (if it exists).</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$L$</th><th>$C$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$L$</td><td>$(1, 1)$</td><td>$(0, 0)$</td></tr>
     <tr><td class="row-label">$C$</td><td>$(0, 0)$</td><td>$(1, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Pairwise compare rows for Player 1 and columns for Player 2 to test for any <strong>strictly dominated strategies</strong>.</li>
+        <li>Determine whether either player possesses a <strong>strictly dominant strategy</strong>.</li>
+        <li>Does an <strong>equilibrium in strictly dominant strategies</strong> exist in this game?</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-g1')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="dom-g1">
     <div class="demo-step">
@@ -735,13 +803,22 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Dominance Analysis</div>
   <div class="example-subtitle">Penalty Kick (Zero-Sum)</div>
-  <div class="body-text"><p>Find all strictly dominated strategies, strictly dominant strategies, and the dominant strategy equilibrium (if it exists).</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$L$</td><td>$(-1, 1)$</td><td>$(1, -1)$</td></tr>
     <tr><td class="row-label">$R$</td><td>$(1, -1)$</td><td>$(-1, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Pairwise compare payoffs to check whether Player 1 (Penalty Taker) or Player 2 (Goalkeeper) has any <strong>strictly dominated strategies</strong>.</li>
+        <li>Does either player have a <strong>strictly dominant strategy</strong>?</li>
+        <li>Can a <strong>strictly dominant strategy equilibrium</strong> be identified?</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-g2')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="dom-g2">
     <div class="demo-step">
@@ -785,13 +862,22 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Dominance Analysis</div>
   <div class="example-subtitle">Prisoner's Dilemma</div>
-  <div class="body-text"><p>Find all strictly dominated strategies, strictly dominant strategies, and the dominant strategy equilibrium (if it exists).</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$C$</td><td>$(-3, -3)$</td><td>$(-10, 0)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(0, -10)$</td><td>$(-5, -5)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Test whether strategy $C$ is <strong>strictly dominated</strong> by strategy $D$ for Player 1 and for Player 2.</li>
+        <li>Determine the <strong>strictly dominant strategy</strong> for each player.</li>
+        <li>Identify the unique <strong>strictly dominant strategy equilibrium</strong> and evaluate its collective welfare properties.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-g3')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="dom-g3">
     <div class="demo-step">
@@ -896,13 +982,18 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example — IESDS ($2 \times 2$)</div>
   <div class="example-subtitle">Two-by-Two Matrix Game</div>
-  <div class="body-text"><p>Apply the iterative elimination of strictly dominated strategies.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$S$</th><th>$T$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$S$</td><td>$(0, -2)$</td><td>$(-10, -1)$</td></tr>
     <tr><td class="row-label">$T$</td><td>$(-1, -10)$</td><td>$(-5, -5)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      What should Player 1 play if she knows that Player 2 is rational? Formally apply the <strong>Iterated Elimination of Strictly Dominated Strategies (IESDS)</strong> procedure: identify strictly dominated strategies, construct residual games $\Gamma^1, \Gamma^2, \ldots$, and find the unique surviving prediction.
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-1')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-1">
     <div class="demo-step">
@@ -942,13 +1033,18 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example — IESDS ($2 \times 3$)</div>
   <div class="example-subtitle">Two-by-Three Matrix Game</div>
-  <div class="body-text"><p>Apply the iterative elimination of strictly dominated strategies.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
     <tr><th></th><th></th><th>$L$</th><th>$M$</th><th>$R$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$U$</td><td>$(2, 2)$</td><td>$(1, 1)$</td><td>$(4, 0)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(1, 2)$</td><td>$(4, 1)$</td><td>$(3, 5)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Apply the <strong>IESDS algorithm</strong> step-by-step: at each round $k$, specify the active residual game $\Gamma^k$, prove which strategy is strictly dominated by another, eliminate it, and determine whether the game is solvable by IESDS.
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-2')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-2">
     <div class="demo-step">
@@ -1000,13 +1096,18 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — IESDS</div>
   <div class="example-subtitle">Game A: Two-by-Three Matrix Game</div>
-  <div class="body-text"><p>Apply the iterative elimination of strictly dominated strategies.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
     <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$H$</td><td>$(2, 2)$</td><td>$(1, 1)$</td><td>$(4, 0)$</td></tr>
     <tr><td class="row-label">$B$</td><td>$(1, 2)$</td><td>$(4, 1)$</td><td>$(3, 5)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Execute the complete <strong>IESDS reduction</strong> on Game A: specify the exact mathematical comparison justifying each elimination at rounds $\Gamma^1, \Gamma^2, \Gamma^3$, and state the unique surviving profile and its payoff vector.
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ex-a')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ex-a">
     <div class="demo-step">
@@ -1057,7 +1158,6 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — IESDS</div>
   <div class="example-subtitle">Game B: Four-by-Four Matrix Game</div>
-  <div class="body-text"><p>Apply the iterative elimination of strictly dominated strategies step-by-step.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="4">Player 2</th></tr>
     <tr><th></th><th></th><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th></tr>
@@ -1066,6 +1166,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     <tr><td class="row-label">$C$</td><td>$(7, 0)$</td><td>$(2, 2)$</td><td>$(1, 5)$</td><td>$(5, 1)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(9, 5)$</td><td>$(1, 3)$</td><td>$(0, 2)$</td><td>$(4, 8)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Apply the <strong>iterative elimination procedure of strictly dominated strategies</strong> to this $4 \times 4$ game. Track the sequence of residual games $\Gamma^1, \ldots, \Gamma^7$ round by round, eliminate one strictly dominated strategy per round, and identify the unique IESDS solution.
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ex-b')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ex-b">
     <div class="demo-step">
@@ -1214,13 +1320,21 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example — Weak Dominance</div>
   <div class="example-subtitle">Motivation for Weak Dominance</div>
-  <div class="body-text"><p>Are there strictly dominant strategies? What is a reasonable strategic choice?</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$U$</td><td>$(2, 2)$</td><td>$(4, 4)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(3, 1)$</td><td>$(4, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Are there any <strong>strictly dominant strategies</strong> in this game? (Explain why strict dominance fails).</li>
+        <li>In your opinion, what would be a smart and reasonable choice for Player 1? Formally justify your answer using <strong>weak dominance</strong>.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'weak-mot')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="weak-mot">
     <div class="demo-step">
@@ -1257,7 +1371,6 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Weak Dominance</div>
   <div class="example-subtitle">Iterated Elimination of Weakly Dominated Strategies</div>
-  <div class="body-text"><p>Apply the iterative elimination of weakly dominated strategies.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
@@ -1265,6 +1378,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     <tr><td class="row-label">$M$</td><td>$(1, 1)$</td><td>$(2, 1)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(0, 0)$</td><td>$(2, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Apply a procedure of <strong>iterated elimination of weakly dominated strategies (IEWDS)</strong>. Show the step-by-step elimination, identify the surviving candidate profiles, and explain why the procedure is order-dependent and inconclusive.
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iewds')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iewds">
     <div class="demo-step">
@@ -1313,7 +1432,12 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Analytical Proof</div>
   <div class="example-subtitle">Second-Price Auction: Weak Dominance of Truthful Bidding</div>
-  <div class="body-text"><p>Prove that in a second-price auction, bidding one's true valuation ($b_i = v_i$) is a weakly dominant strategy for every bidder $i$.</p></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Theorem / Analytical Proof Task</div>
+    <div class="task-text">
+      Prove that in a second-price sealed-bid auction, <strong>bidding one's true valuation ($b_i = v_i$) is a weakly dominant strategy</strong> for every bidder $i$. Fix competitors' bids $b_{-i}$ with highest competing bid $m_i(b) = \max_{j \neq i} b_j$, and partition into three exhaustive cases: $v_i > m_i(b)$, $v_i < m_i(b)$, and $v_i = m_i(b)$.
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'spa-proof')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="spa-proof">
     <div class="demo-step">
@@ -1459,13 +1583,23 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Nash Equilibrium</div>
   <div class="example-subtitle">Matrix Game 1 (Coordination)</div>
-  <div class="body-text"><p>Find all pure-strategy Nash equilibria using the best-response method.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$E$</th><th>$C$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$E$</td><td>$(1, 1)$</td><td>$(0, 0)$</td></tr>
     <tr><td class="row-label">$C$</td><td>$(0, 0)$</td><td>$(1, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Find all pure-strategy <strong>Nash equilibria</strong> using the best-response method:
+      <ol>
+        <li>Derive Player 1's best response set $BR_1(s_2)$ for each column $s_2 \in \{E, C\}$.</li>
+        <li>Derive Player 2's best response set $BR_2(s_1)$ for each row $s_1 \in \{E, C\}$.</li>
+        <li>Identify all mutual best response profiles and state $NE(\Gamma)$.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne1')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne1">
     <div class="demo-step">
@@ -1509,13 +1643,23 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Nash Equilibrium</div>
   <div class="example-subtitle">Matrix Game 2 (Zero-Sum)</div>
-  <div class="body-text"><p>Find all pure-strategy Nash equilibria using the best-response method.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$G$</td><td>$(-1, 1)$</td><td>$(1, -1)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(1, -1)$</td><td>$(-1, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Determine whether any pure-strategy <strong>Nash equilibrium</strong> exists:
+      <ol>
+        <li>Compute $BR_1(s_2)$ for each column and $BR_2(s_1)$ for each row.</li>
+        <li>Test each cell for profitable unilateral deviations.</li>
+        <li>Conclude on the existence of pure-strategy equilibria.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne2')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne2">
     <div class="demo-step">
@@ -1559,13 +1703,21 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Nash Equilibrium</div>
   <div class="example-subtitle">Matrix Game 3 (Prisoner's Dilemma)</div>
-  <div class="body-text"><p>Find all pure-strategy Nash equilibria using the best-response method.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$C$</td><td>$(-3, -3)$</td><td>$(-10, 0)$</td></tr>
     <tr><td class="row-label">$D$</td><td>$(0, -10)$</td><td>$(-5, -5)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Derive the best-response correspondences $BR_1(s_2)$ and $BR_2(s_1)$ for all possible actions of the opponent.</li>
+        <li>Find the pure-strategy <strong>Nash equilibrium</strong> and verify that it coincides with the strictly dominant strategy equilibrium.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne3')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne3">
     <div class="demo-step">
@@ -1610,7 +1762,6 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Nash Equilibrium</div>
   <div class="example-subtitle">Matrix Game 4 (Three-by-Two Game with Payoff Ties)</div>
-  <div class="body-text"><p>Find all pure-strategy Nash equilibria using the best-response method.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
@@ -1618,6 +1769,17 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     <tr><td class="row-label">$M$</td><td>$(1, 1)$</td><td>$(2, 1)$</td></tr>
     <tr><td class="row-label">$B$</td><td>$(0, 0)$</td><td>$(2, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Find all pure-strategy <strong>Nash equilibria</strong> in this $3 \times 2$ game:
+      <ol>
+        <li>Compute $BR_1(s_2)$ for columns $G$ and $D$ (watch for ties where multiple actions are optimal).</li>
+        <li>Compute $BR_2(s_1)$ for rows $H$, $M$, and $B$ (watch for ties).</li>
+        <li>Identify all mutual best response cells and write down the complete set $NE(\Gamma)$.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne4')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne4">
     <div class="demo-step">
@@ -1664,7 +1826,6 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Nash Equilibrium</div>
   <div class="example-subtitle">Matrix Game 5 (Three-by-Three Game)</div>
-  <div class="body-text"><p>Find all pure-strategy Nash equilibria using the best-response method.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
     <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
@@ -1672,6 +1833,17 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     <tr><td class="row-label">$m$</td><td>$(4, 0)$</td><td>$(5, 5)$</td><td>$(4, 0)$</td></tr>
     <tr><td class="row-label">$b$</td><td>$(3, 5)$</td><td>$(0, 4)$</td><td>$(5, 3)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      Find all pure-strategy <strong>Nash equilibria</strong> in this $3 \times 3$ game:
+      <ol>
+        <li>Compute $BR_1(s_2)$ for each of the three columns $\{G, M, D\}$.</li>
+        <li>Compute $BR_2(s_1)$ for each of the three rows $\{h, m, b\}$.</li>
+        <li>Identify which cell(s) constitute mutual best responses and find $NE(\Gamma)$.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne5')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne5">
     <div class="demo-step">
@@ -1716,7 +1888,16 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Cournot Duopoly</div>
   <div class="example-subtitle">Continuous Action Game: Analytical Nash Equilibrium</div>
-  <div class="body-text"><p>Find the Nash equilibrium using two methods: (i) best response functions, (ii) absence of profitable unilateral deviation. Derive the equilibrium price, quantities, and profits.</p></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Formulate the profit function $g_i(q_i, q_j)$ for each firm $i \in \{1, 2\}$ under inverse demand $P = \max(13 - q_1 - q_2, 0)$ and cost $c = 0$.</li>
+        <li>Derive the <strong>best response function</strong> $BR_i(q_j)$ using the First-Order Condition (FOC) and verify concavity via the Second-Order Condition (SOC).</li>
+        <li>Solve the system of reaction functions to find the <strong>Cournot-Nash equilibrium</strong> quantities $(q_1^*, q_2^*)$, aggregate output $Q^*$, market clearing price $P^*$, and equilibrium profits $\pi_i^*$.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'cournot-ne')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="cournot-ne">
     <div class="demo-step">
@@ -1815,6 +1996,16 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     <p><strong>(2)</strong> Let $(\Gamma^k)_{k \geq 1}$ be any IESDS sequence under strict dominance. Then for all $k \geq 1$: $$NE(\Gamma^k) = NE(\Gamma)$$</p>
     <p><strong>(3)</strong> If a game $\Gamma$ is solvable by IESDS, the resulting strategy profile is the <strong>unique</strong> Nash equilibrium of $\Gamma$.</p>
   </div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Mathematical Proof Task</div>
+    <div class="task-text">
+      Provide a rigorous mathematical proof showing that:
+      <ol>
+        <li>An equilibrium in strictly dominant strategies is a Nash equilibrium, and it is strictly unique.</li>
+        <li>If a game is solvable by IESDS, the resulting strategy profile is the unique Nash equilibrium.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn" onclick="toggle(this,'proof1')">▶ Show Formal Proof <span class="arrow">▼</span></button>
   <div class="collapsible" id="proof1">
     <div class="demo-step">
@@ -1864,6 +2055,15 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     <p><strong>(1)</strong> An equilibrium in weakly dominant strategies is a Nash equilibrium (though not necessarily unique).</p>
     <p><strong>(2)</strong> Under iterated elimination of weakly dominated strategies: $$NE(\Gamma^{k+1}) \subseteq NE(\Gamma^k)$$ The inclusion may be <strong>strict</strong>: weakly dominated strategies can themselves be part of a Nash equilibrium, and eliminating them removes those equilibria from the game.</p>
   </div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Mathematical Proof Task</div>
+    <div class="task-text">
+      <ol>
+        <li>Prove that an equilibrium in weakly dominant strategies is necessarily a Nash equilibrium.</li>
+        <li>Provide a counter-example proving that eliminating weakly dominated strategies can eliminate Nash equilibria ($NE(\Gamma^{k+1}) \subset NE(\Gamma^k)$).</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn" onclick="toggle(this,'proof2')">▶ Show Formal Proof <span class="arrow">▼</span></button>
   <div class="collapsible" id="proof2">
     <div class="demo-step">
@@ -1900,13 +2100,22 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise — Solution Concepts</div>
   <div class="example-subtitle">Dominated Strategies and Multiple Nash Equilibria</div>
-  <div class="body-text"><p>Find all dominated strategies and pure-strategy Nash equilibria.</p></div>
   <div class="matrix-wrap"><table class="payoff-matrix">
     <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
     <tr><th></th><th></th><th>$A$</th><th>$B$</th></tr>
     <tr><td rowspan="2" class="row-label" style="color:var(--example);">Player 1</td><td class="row-label">$A$</td><td>$(2, 2)$</td><td>$(1, 2)$</td></tr>
     <tr><td class="row-label">$B$</td><td>$(2, 1)$</td><td>$(1, 1)$</td></tr>
   </table></div>
+  <div class="task-box">
+    <div class="task-badge">🎯 Question to Solve</div>
+    <div class="task-text">
+      <ol>
+        <li>Check whether either player has any strictly dominated strategies.</li>
+        <li>Determine the best-response correspondences $BR_1(s_2)$ and $BR_2(s_1)$.</li>
+        <li>Identify all pure-strategy <strong>Nash equilibria</strong> and explain why every outcome is an equilibrium.</li>
+      </ol>
+    </div>
+  </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'links-ex')">▶ Show Full Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="links-ex">
     <div class="demo-step">
