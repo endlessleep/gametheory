@@ -1012,46 +1012,9 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 </div>
 
 <div class="example-box">
-  <div class="example-badge">Exercise 2.2.B · Chain of Rationality</div>
+  <div class="example-badge">Exercise 2.2.B · IESDS — Game A</div>
   <div class="example-context">
-    Consider the following game:
-    <div class="matrix-wrap"><table class="payoff-matrix">
-      <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
-      <tr><th></th><th></th><th>$L$</th><th>$M$</th><th>$R$</th></tr>
-      <tr><td rowspan="2" class="row-label" style="color:var(--example)">P1</td><td class="row-label">$U$</td><td>$(2,2)$</td><td>$(1,1)$</td><td>$(4,0)$</td></tr>
-      <tr><td class="row-label">$D$</td><td>$(1,2)$</td><td>$(4,1)$</td><td>$(3,5)$</td></tr>
-    </table></div>
-  </div>
-  <div class="example-task">
-    <strong>Task:</strong> What should Player 1 play if she knew that Player 2 is rational? What should Player 2 play if she knew that Player 1 knows she is rational?
-  </div>
-  <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-2')">▶ Show Solution <span class="arrow">▼</span></button>
-  <div class="collapsible" id="iesds-ex-2">
-    <div class="demo-step"><div class="step-num coral">Q1</div><div class="step-body"><strong>What should P1 play if she knew P2 is rational?</strong><br>
-      P2 is rational → P2 will never play a strictly dominated strategy. Is $M$ strictly dominated for P2?<br>
-      Compare column $L$ to column $M$ across all rows:<br>
-      &nbsp;&nbsp;Row $U$: $g_2(U,L) = 2 > g_2(U,M) = 1$ ✓<br>
-      &nbsp;&nbsp;Row $D$: $g_2(D,L) = 2 > g_2(D,M) = 1$ ✓<br>
-      Yes — $M$ is strictly dominated by $L$. P2 will never play $M$: the game reduces to $\{U,D\} 	imes \{L,R\}$.<br><br>
-      In this residual game, is $D$ strictly dominated for P1? Compare row $U$ to row $D$:<br>
-      &nbsp;&nbsp;Col $L$: $g_1(U,L) = 2 > g_1(D,L) = 1$ ✓<br>
-      &nbsp;&nbsp;Col $R$: $g_1(U,R) = 4 > g_1(D,R) = 3$ ✓<br>
-      Yes — $D$ is strictly dominated by $U$. <strong>→ Player 1 should play $U$.</strong>
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">Q2</div><div class="step-body"><strong>What should P2 play if she knew P1 knows P2 is rational?</strong><br>
-      From Q1, P2 knows that P1 deduced $U$ is her best response. So P2 expects P1 to play $U$.<br>
-      Given P1 plays $U$, P2 compares her payoffs in row $U$:<br>
-      &nbsp;&nbsp;$g_2(U,L) = 2 > g_2(U,R) = 0$<br>
-      $L$ strictly dominates $R$ in the residual game. <strong>→ Player 2 should play $L$.</strong>
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> The game is solvable by IESDS. The unique solution is <strong>$(U, L)$</strong> with payoff vector $g(U,L) = (2,2)$.</div></div>
-  </div>
-</div>
-
-<div class="example-box">
-  <div class="example-badge">Exercise 2.2.C · IESDS — Game A</div>
-  <div class="example-context">
-    Game A:
+    Consider Game A:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
@@ -1062,19 +1025,36 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   <div class="example-task">
     <strong>Task:</strong> Apply the iterative elimination procedure of strictly dominated strategies to the following game.
   </div>
-  <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-3')">▶ Show Solution <span class="arrow">▼</span></button>
-  <div class="collapsible" id="iesds-ex-3">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Round 1:</strong> For P2, compare $M$ to $G$: row $H$ gives $g_2(H,G)=2 > g_2(H,M)=1$; row $B$ gives $g_2(B,G)=2 > g_2(B,M)=1$. Column $M$ is strictly dominated by column $G$. <strong>Eliminate column $M$.</strong></div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Round 2:</strong> In $\{H,B\}\times\{G,D\}$, compare rows for P1: col $G$ gives $g_1(H,G)=2 > g_1(B,G)=1$; col $D$ gives $g_1(H,D)=4 > g_1(B,D)=3$. Row $B$ is strictly dominated by row $H$. <strong>Eliminate row $B$.</strong></div></div>
-    <div class="demo-step"><div class="step-num coral">3</div><div class="step-body"><strong>Round 3:</strong> In $\{H\}\times\{G,D\}$, for P2: $g_2(H,G)=2 > g_2(H,D)=0$. Column $D$ is strictly dominated by column $G$. <strong>Eliminate column $D$.</strong></div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> Solvable by IESDS. Unique solution is <strong>$(H, G)$</strong> with payoff $g(H,G) = (2,2)$.</div></div>
+  <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-2')">▶ Show Solution <span class="arrow">▼</span></button>
+  <div class="collapsible" id="iesds-ex-2">
+    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Round 1 — Initial game $\Gamma^1 = \{H, B\} \times \{G, M, D\}$:</strong><br>
+      • <em>Player 1:</em> Against $G$, $H$ gives $2 > 1$; against $M$, $B$ gives $4 > 1$. Neither row dominates.<br>
+      • <em>Player 2:</em> Compare column $M$ with column $G$ across all rows:<br>
+      &nbsp;&nbsp;Row $H$: $g_2(H,G) = 2 > g_2(H,M) = 1$ ✓<br>
+      &nbsp;&nbsp;Row $B$: $g_2(B,G) = 2 > g_2(B,M) = 1$ ✓<br>
+      Column $M$ is strictly dominated by column $G$ for Player 2. <strong>Eliminate column $M$.</strong><br>
+      Residual game: $\Gamma^2 = \{H, B\} \times \{G, D\}$.
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Round 2 — Residual game $\Gamma^2 = \{H, B\} \times \{G, D\}$:</strong><br>
+      Compare row $B$ to row $H$ for Player 1 across remaining columns $\{G, D\}$:<br>
+      &nbsp;&nbsp;Col $G$: $g_1(H,G) = 2 > g_1(B,G) = 1$ ✓<br>
+      &nbsp;&nbsp;Col $D$: $g_1(H,D) = 4 > g_1(B,D) = 3$ ✓<br>
+      Row $B$ is strictly dominated by row $H$ for Player 1. <strong>Eliminate row $B$.</strong><br>
+      Residual game: $\Gamma^3 = \{H\} \times \{G, D\}$.
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">3</div><div class="step-body"><strong>Round 3 — Residual game $\Gamma^3 = \{H\} \times \{G, D\}$:</strong><br>
+      Only row $H$ remains for Player 1. Compare columns $D$ and $G$ in row $H$ for Player 2:<br>
+      &nbsp;&nbsp;$g_2(H,G) = 2 > g_2(H,D) = 0$ ✓<br>
+      Column $D$ is strictly dominated by column $G$ for Player 2. <strong>Eliminate column $D$.</strong>
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> Game A is solvable by IESDS. The unique surviving profile is <strong>$(H, G)$</strong> with payoff vector $g(H,G) = (2,2)$.</div></div>
   </div>
 </div>
 
 <div class="example-box">
-  <div class="example-badge">Exercise 2.2.D · IESDS — Game B</div>
+  <div class="example-badge">Exercise 2.2.C · IESDS — Game B</div>
   <div class="example-context">
-    Game B:
+    Consider Game B:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="4">Player 2</th></tr>
       <tr><th></th><th></th><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th></tr>
@@ -1087,49 +1067,52 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   <div class="example-task">
     <strong>Task:</strong> Apply the iterative elimination procedure of strictly dominated strategies to the following game.
   </div>
-  <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-4')">▶ Show Solution <span class="arrow">▼</span></button>
-  <div class="collapsible" id="iesds-ex-4">
+  <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-3')">▶ Show Solution <span class="arrow">▼</span></button>
+  <div class="collapsible" id="iesds-ex-3">
     <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Round 1 — Player 2 column $A$ vs column $D$:</strong><br>
-      Compare $g_2(\cdot, A)$ with $g_2(\cdot, D)$ across all 4 rows:<br>
+      Compare $g_2(\cdot, A)$ with $g_2(\cdot, D)$ across all 4 rows in $\Gamma^1$:<br>
       Row $A$: $g_2(A,D) = 4 > g_2(A,A) = 2$ ✓<br>
       Row $B$: $g_2(B,D) = 1 > g_2(B,A) = 0$ ✓<br>
       Row $C$: $g_2(C,D) = 1 > g_2(C,A) = 0$ ✓<br>
       Row $D$: $g_2(D,D) = 8 > g_2(D,A) = 5$ ✓<br>
-      Column $A$ is strictly dominated by column $D$ for Player 2. <strong>Eliminate column $A$.</strong> Residual: $\{A,B,C,D\} \times \{B,C,D\}$.
+      Column $A$ is strictly dominated by column $D$ for Player 2. <strong>Eliminate column $A$.</strong><br>
+      Residual game: $\Gamma^2 = \{A,B,C,D\} \times \{B,C,D\}$.
     </div></div>
     <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Round 2 — Player 1 in $\{A,B,C,D\} \times \{B,C,D\}$:</strong><br>
-      Compare row $A$ to row $B$ across remaining columns $\{B,C,D\}$:<br>
-      Col $B$: $g_1(B,B) = 3 > g_1(A,B) = 2$ ✓<br>
-      Col $C$: $g_1(B,C) = 2 > g_1(A,C) = 1$ ✓<br>
-      Col $D$: $g_1(B,D) = 1 > g_1(A,D) = 0$ ✓<br>
+      • Compare row $A$ to row $B$ across remaining columns $\{B,C,D\}$:<br>
+      &nbsp;&nbsp;Col $B$: $g_1(B,B) = 3 > g_1(A,B) = 2$ ✓<br>
+      &nbsp;&nbsp;Col $C$: $g_1(B,C) = 2 > g_1(A,C) = 1$ ✓<br>
+      &nbsp;&nbsp;Col $D$: $g_1(B,D) = 1 > g_1(A,D) = 0$ ✓<br>
       Row $A$ is strictly dominated by row $B$. <strong>Eliminate row $A$.</strong><br><br>
-      Compare row $D$ to row $C$ across $\{B,C,D\}$:<br>
-      Col $B$: $g_1(C,B) = 2 > g_1(D,B) = 1$ ✓<br>
-      Col $C$: $g_1(C,C) = 1 > g_1(D,C) = 0$ ✓<br>
-      Col $D$: $g_1(C,D) = 5 > g_1(D,D) = 4$ ✓<br>
-      Row $D$ is strictly dominated by row $C$. <strong>Eliminate row $D$.</strong> Residual: $\{B,C\} \times \{B,C,D\}$.
+      • Compare row $D$ to row $C$ across remaining columns $\{B,C,D\}$:<br>
+      &nbsp;&nbsp;Col $B$: $g_1(C,B) = 2 > g_1(D,B) = 1$ ✓<br>
+      &nbsp;&nbsp;Col $C$: $g_1(C,C) = 1 > g_1(D,C) = 0$ ✓<br>
+      &nbsp;&nbsp;Col $D$: $g_1(C,D) = 5 > g_1(D,D) = 4$ ✓<br>
+      Row $D$ is strictly dominated by row $C$. <strong>Eliminate row $D$.</strong><br>
+      Residual game: $\Gamma^3 = \{B,C\} \times \{B,C,D\}$.
     </div></div>
     <div class="demo-step"><div class="step-num coral">3</div><div class="step-body"><strong>Round 3 — Player 2 in $\{B,C\} \times \{B,C,D\}$:</strong><br>
       Compare column $D$ to column $B$ across remaining rows $\{B,C\}$:<br>
-      Row $B$: $g_2(B,B) = 2 > g_2(B,D) = 1$ ✓<br>
-      Row $C$: $g_2(C,B) = 2 > g_2(C,D) = 1$ ✓<br>
-      Column $D$ is strictly dominated by column $B$. <strong>Eliminate column $D$.</strong> Residual: $\{B,C\} \times \{B,C\}$.
+      &nbsp;&nbsp;Row $B$: $g_2(B,B) = 2 > g_2(B,D) = 1$ ✓<br>
+      &nbsp;&nbsp;Row $C$: $g_2(C,B) = 2 > g_2(C,D) = 1$ ✓<br>
+      Column $D$ is strictly dominated by column $B$. <strong>Eliminate column $D$.</strong><br>
+      Residual game: $\Gamma^4 = \{B,C\} \times \{B,C\}$.
     </div></div>
     <div class="demo-step"><div class="step-num coral">4</div><div class="step-body"><strong>Round 4 — Player 1 in $\{B,C\} \times \{B,C\}$:</strong><br>
       Compare row $C$ to row $B$ across remaining columns $\{B,C\}$:<br>
-      Col $B$: $g_1(B,B) = 3 > g_1(C,B) = 2$ ✓<br>
-      Col $C$: $g_1(B,C) = 2 > g_1(C,C) = 1$ ✓<br>
-      Row $C$ is strictly dominated by row $B$. <strong>Eliminate row $C$.</strong> Residual: $\{B\} \times \{B,C\}$.
+      &nbsp;&nbsp;Col $B$: $g_1(B,B) = 3 > g_1(C,B) = 2$ ✓<br>
+      &nbsp;&nbsp;Col $C$: $g_1(B,C) = 2 > g_1(C,C) = 1$ ✓<br>
+      Row $C$ is strictly dominated by row $B$. <strong>Eliminate row $C$.</strong><br>
+      Residual game: $\Gamma^5 = \{B\} \times \{B,C\}$.
     </div></div>
     <div class="demo-step"><div class="step-num coral">5</div><div class="step-body"><strong>Round 5 — Player 2 in $\{B\} \times \{B,C\}$:</strong><br>
       Only row $B$ remains for Player 1. Compare columns $B$ and $C$ in row $B$:<br>
-      $g_2(B,B) = 2 > g_2(B,C) = 1$ ✓<br>
+      &nbsp;&nbsp;$g_2(B,B) = 2 > g_2(B,C) = 1$ ✓<br>
       Column $C$ is strictly dominated by column $B$. <strong>Eliminate column $C$.</strong>
     </div></div>
     <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> Game B is fully solvable by IESDS. The unique solution is <strong>$(B, B)$</strong> with payoff vector $g(B,B) = (3,2)$.</div></div>
   </div>
 </div>
-
 
 <!-- §2.3 WEAK DOMINANCE -->
 <div class="section-header subsection-target" id="sec-2-3" data-subsection="§ 2.3">
