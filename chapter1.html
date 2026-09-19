@@ -804,96 +804,82 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   </div>
 </div>
 
-<!-- DOMINANCE EXERCISES (3 DISTINCT BOXES) -->
+<!-- DOMINANCE EXERCISE — PROFESSOR'S EXACT STATEMENT -->
 <div class="example-box">
-  <div class="example-badge">Exercise 2.1.A · Dominance in Location Game</div>
+  <div class="example-badge">Exercise · Strict Dominance</div>
   <div class="example-context">
-    Consider the Location Game matrix:
+    Find (in case of existence) strictly dominated strategies, strictly dominant strategies and the equilibrium in strictly dominant strategies in the following games.
+  </div>
+  <div style="margin-top:14px;">
+    <div style="font-weight:800; color:var(--example); margin-bottom:6px; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.5px;">Game 1</div>
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$L$</th><th>$C$</th></tr>
       <tr><td rowspan="2" class="row-label" style="color:var(--example)">P1</td><td class="row-label">$L$</td><td>$(1,1)$</td><td>$(0,0)$</td></tr>
       <tr><td class="row-label">$C$</td><td>$(0,0)$</td><td>$(1,1)$</td></tr>
     </table></div>
-  </div>
-  <div class="example-task">
-    <strong>Task:</strong> Test whether Player 1 or Player 2 has any strictly dominated strategy. Conclude if an equilibrium in strictly dominant strategies exists.
-  </div>
-  <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-ex-1')">▶ Show Solution <span class="arrow">▼</span></button>
-  <div class="collapsible" id="dom-ex-1">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Player 1:</strong><br>
-      If P2 plays $L$: $g_1(L,L) = 1 > g_1(C,L) = 0 \implies L$ is strictly better than $C$.<br>
-      If P2 plays $C$: $g_1(C,C) = 1 > g_1(L,C) = 0 \implies C$ is strictly better than $L$.<br>
-      Since neither row is strictly better across all columns, neither $L$ nor $C$ is strictly dominated. <strong>No strictly dominated strategy for P1.</strong>
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Player 2:</strong><br>
-      By symmetry, $g_2(L,L) = 1 > g_2(L,C) = 0$ against row $L$, but $g_2(C,C) = 1 > g_2(C,L) = 0$ against row $C$. <strong>No strictly dominated strategy for P2.</strong>
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> No strictly dominated strategies exist, and no strictly dominant strategy equilibrium exists.</div></div>
-  </div>
-</div>
-
-<div class="example-box">
-  <div class="example-badge">Exercise 2.1.B · Dominance in Penalty Kick</div>
-  <div class="example-context">
-    Consider the zero-sum Penalty Kick matrix:
+    <div style="font-weight:800; color:var(--example); margin:16px 0 6px; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.5px;">Game 2</div>
     <div class="matrix-wrap"><table class="payoff-matrix">
-      <tr><th></th><th></th><th colspan="2">Goalkeeper (P2)</th></tr>
+      <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
-      <tr><td rowspan="2" class="row-label" style="color:var(--example)">PT (P1)</td><td class="row-label">$L$</td><td>$(-1,1)$</td><td>$(1,-1)$</td></tr>
+      <tr><td rowspan="2" class="row-label" style="color:var(--example)">P1</td><td class="row-label">$L$</td><td>$(-1,1)$</td><td>$(1,-1)$</td></tr>
       <tr><td class="row-label">$R$</td><td>$(1,-1)$</td><td>$(-1,1)$</td></tr>
     </table></div>
-  </div>
-  <div class="example-task">
-    <strong>Task:</strong> Test for strictly dominated and strictly dominant strategies for both players.
-  </div>
-  <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-ex-2')">▶ Show Solution <span class="arrow">▼</span></button>
-  <div class="collapsible" id="dom-ex-2">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Player 1 (PT):</strong><br>
-      Against column $L$: $g_1(R,L) = 1 > g_1(L,L) = -1 \implies R$ is strictly better.<br>
-      Against column $R$: $g_1(L,R) = 1 > g_1(R,R) = -1 \implies L$ is strictly better.<br>
-      No strategy is strictly better against all opponent actions $\implies$ no strictly dominated strategy for P1.
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Player 2 (GK):</strong><br>
-      Against row $L$: $g_2(L,L) = 1 > g_2(L,R) = -1 \implies L$ is strictly better.<br>
-      Against row $R$: $g_2(R,R) = 1 > g_2(R,L) = -1 \implies R$ is strictly better.<br>
-      No strictly dominated strategy for P2.
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> No strictly dominated strategies, no dominant strategy equilibrium.</div></div>
-  </div>
-</div>
-
-<div class="example-box">
-  <div class="example-badge">Exercise 2.1.C · Dominance in Prisoner's Dilemma</div>
-  <div class="example-context">
-    Consider the Prisoner's Dilemma matrix:
+    <div style="font-weight:800; color:var(--example); margin:16px 0 6px; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.5px;">Game 3</div>
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
-      <tr><td rowspan="2" class="row-label" style="color:var(--example)">Player 1</td><td class="row-label">$C$</td><td>$(-3,-3)$</td><td>$(-10,\;0)$</td></tr>
+      <tr><td rowspan="2" class="row-label" style="color:var(--example)">P1</td><td class="row-label">$C$</td><td>$(-3,-3)$</td><td>$(-10,\;0)$</td></tr>
       <tr><td class="row-label">$D$</td><td>$(0,-10)$</td><td>$(-5,-5)$</td></tr>
     </table></div>
   </div>
-  <div class="example-task">
-    <strong>Task:</strong> Test whether $D$ strictly dominates $C$ for each player. Identify the strictly dominant strategy equilibrium.
-  </div>
-  <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-ex-3')">▶ Show Solution <span class="arrow">▼</span></button>
-  <div class="collapsible" id="dom-ex-3">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Player 1 — Does $D$ strictly dominate $C$?</strong><br>
-      If P2 plays $C$: $g_1(D,C) = 0 > g_1(C,C) = -3$ ✓<br>
-      If P2 plays $D$: $g_1(D,D) = -5 > g_1(C,D) = -10$ ✓<br>
-      The strict inequality holds for <em>every</em> column. Therefore, <strong>$D$ strictly dominates $C$ for Player 1</strong>. Strategy $C$ is strictly dominated, and $D$ is strictly dominant.
+  <button class="toggle-btn example-toggle" onclick="toggle(this,'dom-ex-all')">&#9658; Show Solution <span class="arrow">&#9660;</span></button>
+  <div class="collapsible" id="dom-ex-all">
+
+    <div style="font-weight:800; color:var(--text); border-bottom:1px solid var(--border); padding-bottom:6px; margin-bottom:12px; margin-top:4px; font-size:0.95rem;">Game 1</div>
+    <div class="demo-step"><div class="step-num coral">A</div><div class="step-body"><strong>Strictly dominated strategies:</strong><br>
+      <em>Player 1:</em> Against $L$ (P2): $g_1(L,L)=1 > g_1(C,L)=0 \implies L$ is better. Against $C$ (P2): $g_1(C,C)=1 > g_1(L,C)=0 \implies C$ is better. The preferred row switches depending on P2's action: <strong>no strictly dominated strategy for P1.</strong><br>
+      <em>Player 2:</em> By symmetry, the same reasoning applies: <strong>no strictly dominated strategy for P2.</strong>
     </div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Player 2 — Does $D$ strictly dominate $C$?</strong><br>
-      If P1 plays $C$: $g_2(C,D) = 0 > g_2(C,C) = -3$ ✓<br>
-      If P1 plays $D$: $g_2(D,D) = -5 > g_2(D,C) = -10$ ✓<br>
-      Therefore, <strong>$D$ strictly dominates $C$ for Player 2</strong>.
+    <div class="demo-step"><div class="step-num coral">B</div><div class="step-body"><strong>Strictly dominant strategies:</strong><br>
+      A strategy is strictly dominant if it is strictly best against <em>every</em> opponent action. Here, $L$ is only best when P2 plays $L$, and $C$ is only best when P2 plays $C$. <strong>No strictly dominant strategy for either player.</strong>
     </div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> The game possesses a <strong>unique strictly dominant strategy equilibrium: $s^* = (D, D)$</strong> with payoff vector $g(D,D) = (-5,-5)$.</div></div>
+    <div class="demo-step"><div class="step-num coral">C</div><div class="step-body"><strong>Equilibrium in strictly dominant strategies:</strong><br>
+      Since no player has a strictly dominant strategy, <strong>no equilibrium in strictly dominant strategies exists.</strong>
+    </div></div>
+
+    <div style="font-weight:800; color:var(--text); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:8px 0 6px; margin:16px 0 12px; font-size:0.95rem;">Game 2</div>
+    <div class="demo-step"><div class="step-num coral">A</div><div class="step-body"><strong>Strictly dominated strategies:</strong><br>
+      <em>Player 1:</em> Against $L$ (P2): $g_1(R,L)=1 > g_1(L,L)=-1 \implies R$ is better. Against $R$ (P2): $g_1(L,R)=1 > g_1(R,R)=-1 \implies L$ is better. The preferred row switches: <strong>no strictly dominated strategy for P1.</strong><br>
+      <em>Player 2:</em> Against $L$ (P1): $g_2(L,L)=1 > g_2(L,R)=-1 \implies L$ is better. Against $R$ (P1): $g_2(R,R)=1 > g_2(R,L)=-1 \implies R$ is better. The preferred column switches: <strong>no strictly dominated strategy for P2.</strong>
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">B</div><div class="step-body"><strong>Strictly dominant strategies:</strong><br>
+      No strategy is always strictly best for either player. <strong>No strictly dominant strategy for either player.</strong>
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">C</div><div class="step-body"><strong>Equilibrium in strictly dominant strategies:</strong><br>
+      Since no player has a strictly dominant strategy, <strong>no equilibrium in strictly dominant strategies exists.</strong>
+    </div></div>
+
+    <div style="font-weight:800; color:var(--text); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:8px 0 6px; margin:16px 0 12px; font-size:0.95rem;">Game 3</div>
+    <div class="demo-step"><div class="step-num coral">A</div><div class="step-body"><strong>Strictly dominated strategies:</strong><br>
+      <em>Player 1:</em> Does $D$ strictly dominate $C$?<br>
+      &nbsp;&nbsp;Against $C$ (P2): $g_1(D,C) = 0 > g_1(C,C) = -3$ &#10003;<br>
+      &nbsp;&nbsp;Against $D$ (P2): $g_1(D,D) = -5 > g_1(C,D) = -10$ &#10003;<br>
+      Yes: <strong>$C$ is strictly dominated by $D$ for P1.</strong><br><br>
+      <em>Player 2:</em> Does $D$ strictly dominate $C$?<br>
+      &nbsp;&nbsp;Against $C$ (P1): $g_2(C,D) = 0 > g_2(C,C) = -3$ &#10003;<br>
+      &nbsp;&nbsp;Against $D$ (P1): $g_2(D,D) = -5 > g_2(D,C) = -10$ &#10003;<br>
+      Yes: <strong>$C$ is strictly dominated by $D$ for P2.</strong>
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">B</div><div class="step-body"><strong>Strictly dominant strategies:</strong><br>
+      <em>Player 1:</em> Strategy $D$ is strictly better than $C$ against every strategy of P2 (shown above). <strong>$D$ is strictly dominant for P1.</strong><br>
+      <em>Player 2:</em> Strategy $D$ is strictly better than $C$ against every strategy of P1 (shown above). <strong>$D$ is strictly dominant for P2.</strong>
+    </div></div>
+    <div class="demo-step"><div class="step-num coral">C</div><div class="step-body"><strong>Equilibrium in strictly dominant strategies:</strong><br>
+      Every player has a strictly dominant strategy ($D$ for each), so the profile $(D,D)$ is a strictly dominant strategy equilibrium. <strong>The equilibrium in strictly dominant strategies is $(D, D)$</strong> with payoffs $g(D,D) = (-5, -5)$.
+    </div></div>
   </div>
 </div>
-
-
 <!-- §2.2 IESDS -->
 <div class="section-header">
   <span class="section-label cyan">§ 2.2</span>
@@ -951,7 +937,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Determine whether this game is solvable by IESDS. Detail each elimination round and state the residual game.
+    <strong>Task:</strong> What should Player 1 play if she knew that Player 2 is rational?
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-1')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-ex-1">
@@ -981,7 +967,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Solve this game using IESDS. Detail every elimination step with exact payoff comparisons.
+    <strong>Task:</strong> What should Player 1 play if she knew that Player 2 is rational? What should Player 2 play if she knew that Player 1 knows she is rational?
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-2')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-ex-2">
@@ -1019,7 +1005,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Apply IESDS step-by-step and identify the unique surviving strategy profile.
+    <strong>Task:</strong> Apply the iterative elimination procedure of strictly dominated strategies to the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-3')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-ex-3">
@@ -1044,7 +1030,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Perform the complete IESDS algorithm on this $4 \times 4$ game. Carefully test each strategy at every round and conclude.
+    <strong>Task:</strong> Apply the iterative elimination procedure of strictly dominated strategies to the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-4')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-ex-4">
@@ -1140,7 +1126,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Test whether $D$ strictly dominates $U$. Then test whether $D$ weakly dominates $U$.
+    <strong>Task:</strong> In the following game, are there strictly dominant strategies? In your opinion, what would be a smart choice?
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'weak-ex-1')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="weak-ex-1">
@@ -1170,7 +1156,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Apply IEWDS by first eliminating row $U$. Then repeat by first eliminating row $D$. Show that the surviving profiles differ.
+    <strong>Task:</strong> Apply a procedure of iterated elimination of weakly dominated strategies to the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iewds-ex')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iewds-ex">
@@ -1194,7 +1180,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     In a second-price sealed-bid auction with $N \geq 2$ bidders, bidder $i$ has private valuation $v_i \geq 0$ and submits bid $b_i \geq 0$.
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Prove mathematically that bidding truthfully ($b_i = v_i$) is a weakly dominant strategy for every bidder $i$.
+    <strong>Task:</strong> Prove that in a second price auction, playing one's true value is a weakly dominant strategy.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'spa-proof-box')">▶ Show Proof <span class="arrow">▼</span></button>
   <div class="collapsible" id="spa-proof-box">
@@ -1301,7 +1287,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise 3.2.A · Coordination Game (Game 1)</div>
   <div class="example-context">
-    Find all pure strategy Nash equilibria:
+    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$E$</th><th>$C$</th></tr>
@@ -1310,7 +1296,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Determine best responses for both players and find all Nash equilibria.
+    <strong>Task:</strong> Find the Nash equilibria of the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne-ex-1')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne-ex-1">
@@ -1334,7 +1320,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise 3.2.B · Zero-Sum Penalty Kick (Game 2)</div>
   <div class="example-context">
-    Find all pure strategy Nash equilibria:
+    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
@@ -1343,7 +1329,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Find all pure strategy Nash equilibria using best responses.
+    <strong>Task:</strong> Find the Nash equilibria of the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne-ex-2')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne-ex-2">
@@ -1366,7 +1352,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise 3.2.C · Prisoner's Dilemma (Game 3)</div>
   <div class="example-context">
-    Find all pure strategy Nash equilibria:
+    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
@@ -1375,7 +1361,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Find all pure strategy Nash equilibria using best responses.
+    <strong>Task:</strong> Find the Nash equilibria of the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne-ex-3')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne-ex-3">
@@ -1389,7 +1375,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise 3.2.D · 3×2 Game with Ties (Game 4)</div>
   <div class="example-context">
-    Find all pure strategy Nash equilibria:
+    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
@@ -1399,7 +1385,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Identify best responses for both players (watch out for ties!) and list all Nash equilibria.
+    <strong>Task:</strong> Find the Nash equilibria of the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'ne-ex-4')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="ne-ex-4">
@@ -1426,7 +1412,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise 3.2.E · 3×3 Game (Game 5)</div>
   <div class="example-context">
-    Find all pure strategy Nash equilibria:
+    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
@@ -1560,7 +1546,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
     </table></div>
   </div>
   <div class="example-task">
-    <strong>Task:</strong> Check for dominated strategies and find all Nash equilibria. What does this reveal?
+    <strong>Task:</strong> Find the dominated strategies and the Nash equilibria in the following game.
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'conn-ex')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="conn-ex">
