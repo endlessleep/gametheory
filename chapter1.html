@@ -926,7 +926,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 <!-- IESDS EXERCISES -->
 <div class="example-box">
-  <div class="example-badge">Exercise 2.2.A · IESDS in a 2×2 Game</div>
+  <div class="example-badge">Exercise 2.2.A · Chain of Rationality</div>
   <div class="example-context">
     Consider the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
@@ -941,22 +941,23 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-1')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-ex-1">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Round 1 — Check Player 2 in $\Gamma^1$:</strong><br>
-      Against row $S$: $g_2(S,T) = -1 > g_2(S,S) = -2$ ✓<br>
-      Against row $T$: $g_2(T,T) = -5 > g_2(T,S) = -10$ ✓<br>
-      Since column $T$ gives a strictly higher payoff against both rows, <strong>$S$ is strictly dominated by $T$ for Player 2</strong>. Eliminate column $S$.
+    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Player 2 is rational → she will never play a strictly dominated strategy.</strong><br>
+      Is $S$ strictly dominated for P2? Compare column $T$ to column $S$ across all rows:<br>
+      &nbsp;&nbsp;Row $S$: $g_2(S,T) = -1 > g_2(S,S) = -2$ ✓<br>
+      &nbsp;&nbsp;Row $T$: $g_2(T,T) = -5 > g_2(T,S) = -10$ ✓<br>
+      Yes — $S$ is strictly dominated by $T$ for P2. A rational P2 will never play $S$: <strong>P2 plays $T$.</strong>
     </div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Round 2 — Residual game $\Gamma^2 = \{S, T\} \times \{T\}$:</strong><br>
-      Player 1 faces only column $T$. Compare her rows in column $T$:<br>
-      $g_1(T,T) = -5 > g_1(S,T) = -10$ ✓<br>
-      In $\Gamma^2$, row $S$ is strictly dominated by row $T$ for Player 1. Eliminate row $S$.
+    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Knowing P2 plays $T$, what should P1 play?</strong><br>
+      P1 compares her payoffs in column $T$:<br>
+      &nbsp;&nbsp;$g_1(T,T) = -5 > g_1(S,T) = -10$<br>
+      $T$ is strictly better for P1 when P2 plays $T$.
     </div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> The game is solvable by IESDS. The unique solution is <strong>$(T, T)$</strong> with payoff vector $g(T,T) = (-5,-5)$.</div></div>
+    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Answer:</strong> Player 1 should play <strong>$T$</strong>. (The unique IESDS solution is $(T,T)$ with payoff $g(T,T)=(-5,-5)$.)</div></div>
   </div>
 </div>
 
 <div class="example-box">
-  <div class="example-badge">Exercise 2.2.B · IESDS in a 2×3 Game</div>
+  <div class="example-badge">Exercise 2.2.B · Chain of Rationality</div>
   <div class="example-context">
     Consider the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
@@ -971,32 +972,31 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'iesds-ex-2')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="iesds-ex-2">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Round 1 — In $\Gamma^1 = \{U, D\} \times \{L, M, R\}$:</strong><br>
-      Check P1: Against $L$, $g_1(U,L)=2 > g_1(D,L)=1$; against $M$, $g_1(D,M)=4 > g_1(U,M)=1$. No row dominates.<br>
-      Check P2: Compare column $M$ against column $L$:<br>
-      Row $U$: $g_2(U,L) = 2 > g_2(U,M) = 1$ ✓<br>
-      Row $D$: $g_2(D,L) = 2 > g_2(D,M) = 1$ ✓<br>
-      Column $M$ is strictly dominated by column $L$ for P2. <strong>Eliminate column $M$.</strong>
+    <div class="demo-step"><div class="step-num coral">Q1</div><div class="step-body"><strong>What should P1 play if she knew P2 is rational?</strong><br>
+      P2 is rational → P2 will never play a strictly dominated strategy. Is $M$ strictly dominated for P2?<br>
+      Compare column $L$ to column $M$ across all rows:<br>
+      &nbsp;&nbsp;Row $U$: $g_2(U,L) = 2 > g_2(U,M) = 1$ ✓<br>
+      &nbsp;&nbsp;Row $D$: $g_2(D,L) = 2 > g_2(D,M) = 1$ ✓<br>
+      Yes — $M$ is strictly dominated by $L$. P2 will never play $M$: the game reduces to $\{U,D\} 	imes \{L,R\}$.<br><br>
+      In this residual game, is $D$ strictly dominated for P1? Compare row $U$ to row $D$:<br>
+      &nbsp;&nbsp;Col $L$: $g_1(U,L) = 2 > g_1(D,L) = 1$ ✓<br>
+      &nbsp;&nbsp;Col $R$: $g_1(U,R) = 4 > g_1(D,R) = 3$ ✓<br>
+      Yes — $D$ is strictly dominated by $U$. <strong>→ Player 1 should play $U$.</strong>
     </div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Round 2 — Residual game $\Gamma^2 = \{U, D\} \times \{L, R\}$:</strong><br>
-      Check P1 in $\Gamma^2$ (comparing row $U$ to row $D$):<br>
-      Column $L$: $g_1(U,L) = 2 > g_1(D,L) = 1$ ✓<br>
-      Column $R$: $g_1(U,R) = 4 > g_1(D,R) = 3$ ✓<br>
-      Row $D$ is strictly dominated by row $U$ for P1. <strong>Eliminate row $D$.</strong>
+    <div class="demo-step"><div class="step-num coral">Q2</div><div class="step-body"><strong>What should P2 play if she knew P1 knows P2 is rational?</strong><br>
+      From Q1, P2 knows that P1 deduced $U$ is her best response. So P2 expects P1 to play $U$.<br>
+      Given P1 plays $U$, P2 compares her payoffs in row $U$:<br>
+      &nbsp;&nbsp;$g_2(U,L) = 2 > g_2(U,R) = 0$<br>
+      $L$ strictly dominates $R$ in the residual game. <strong>→ Player 2 should play $L$.</strong>
     </div></div>
-    <div class="demo-step"><div class="step-num coral">3</div><div class="step-body"><strong>Round 3 — Residual game $\Gamma^3 = \{U\} \times \{L, R\}$:</strong><br>
-      Check P2 in $\Gamma^3$ (only row $U$ remains):<br>
-      $g_2(U,L) = 2 > g_2(U,R) = 0$ ✓<br>
-      Column $R$ is strictly dominated by column $L$ for P2. <strong>Eliminate column $R$.</strong>
-    </div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> Game is solvable by IESDS. Unique solution is <strong>$(U, L)$</strong> with payoff vector $g(U,L) = (2,2)$.</div></div>
+    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> The game is solvable by IESDS. The unique solution is <strong>$(U, L)$</strong> with payoff vector $g(U,L) = (2,2)$.</div></div>
   </div>
 </div>
 
 <div class="example-box">
-  <div class="example-badge">Exercise 2.2.C · IESDS in Game A (2×3)</div>
+  <div class="example-badge">Exercise 2.2.C · IESDS — Game A</div>
   <div class="example-context">
-    Consider Game A:
+    Game A:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
@@ -1017,9 +1017,9 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 </div>
 
 <div class="example-box">
-  <div class="example-badge">Exercise 2.2.D · IESDS in Game B (4×4)</div>
+  <div class="example-badge">Exercise 2.2.D · IESDS — Game B</div>
   <div class="example-context">
-    Consider Game B:
+    Game B:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="4">Player 2</th></tr>
       <tr><th></th><th></th><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th></tr>
@@ -1130,15 +1130,18 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   </div>
   <button class="toggle-btn example-toggle" onclick="toggle(this,'weak-ex-1')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="weak-ex-1">
-    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Strict dominance test:</strong><br>
-      Against $L$: $g_1(D,L) = 3 > g_1(U,L) = 2$ ✓<br>
-      Against $R$: $g_1(D,R) = 4 = g_1(U,R) = 4$ — <strong>equality, not strict!</strong><br>
-      Since the inequality is not strict against column $R$, $D$ does <strong>not</strong> strictly dominate $U$.
+    <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Are there strictly dominant strategies?</strong><br>
+      Does $D$ strictly dominate $U$ for P1? Check against every column:<br>
+      &nbsp;&nbsp;Against $L$: $g_1(D,L) = 3 > g_1(U,L) = 2$ ✓<br>
+      &nbsp;&nbsp;Against $R$: $g_1(D,R) = 4 = g_1(U,R) = 4$ — <em>equality, not strict inequality.</em><br>
+      $D$ is <strong>not</strong> strictly better in every case: <strong>no strictly dominant strategy exists for P1.</strong><br>
+      By symmetry of the column player's position, P2 has no strictly dominant strategy either.
     </div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Weak dominance test:</strong><br>
-      Against $L$: $g_1(D,L) = 3 \geq g_1(U,L) = 2$ ✓ (strict)<br>
-      Against $R$: $g_1(D,R) = 4 \geq g_1(U,R) = 4$ ✓ (equality)<br>
-      $D$ yields at least as much as $U$ everywhere, and strictly more against $L$. Therefore, <strong>$D$ weakly dominates $U$ for Player 1</strong>.
+    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>In your opinion, what would be a smart choice?</strong><br>
+      Although $D$ does not <em>strictly</em> dominate $U$, it does <em>weakly</em> dominate it:<br>
+      &nbsp;&nbsp;Against $L$: $g_1(D,L) = 3 \geq g_1(U,L) = 2$ ✓ (strictly better)<br>
+      &nbsp;&nbsp;Against $R$: $g_1(D,R) = 4 \geq g_1(U,R) = 4$ ✓ (equally good)<br>
+      $D$ is <em>never worse</em> than $U$ and <em>sometimes strictly better</em>. A smart player should play $D$ — there is no reason to ever prefer $U$. <strong>$D$ weakly dominates $U$; playing $D$ is the smart choice.</strong>
     </div></div>
   </div>
 </div>
@@ -1146,7 +1149,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Exercise 2.3.B · Order-Dependence in IEWDS</div>
   <div class="example-context">
-    Consider the game:
+    Consider the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
@@ -1285,9 +1288,8 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 <!-- GAME 1 -->
 <div class="example-box">
-  <div class="example-badge">Exercise 3.2.A · Coordination Game (Game 1)</div>
+  <div class="example-badge">Exercise 3.2.A · Game 1</div>
   <div class="example-context">
-    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$E$</th><th>$C$</th></tr>
@@ -1318,9 +1320,8 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 <!-- GAME 2 -->
 <div class="example-box">
-  <div class="example-badge">Exercise 3.2.B · Zero-Sum Penalty Kick (Game 2)</div>
+  <div class="example-badge">Exercise 3.2.B · Game 2</div>
   <div class="example-context">
-    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
@@ -1350,9 +1351,8 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 <!-- GAME 3 -->
 <div class="example-box">
-  <div class="example-badge">Exercise 3.2.C · Prisoner's Dilemma (Game 3)</div>
+  <div class="example-badge">Exercise 3.2.C · Game 3</div>
   <div class="example-context">
-    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
@@ -1367,15 +1367,14 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   <div class="collapsible" id="ne-ex-3">
     <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Player 1:</strong> Against $C$: $BR_1(C) = \{D\}$ ($0 > -3$). Against $D$: $BR_1(D) = \{D\}$ ($-5 > -10$). $D$ is strictly dominant.</div></div>
     <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Player 2:</strong> By symmetry, $BR_2(C) = \{D\}$ and $BR_2(D) = \{D\}$. $D$ is strictly dominant.</div></div>
-    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> <strong>Unique Nash equilibrium: $NE(\Gamma) = \{(D,D)\}$</strong> with payoff vector $g(D,D) = (-5,-5)$.</div></div>
+    <div class="demo-step"><div class="step-num coral">✓</div><div class="step-body"><strong>Conclusion:</strong> <strong>Unique Nash equilibrium: $NE(\Gamma) = \{(D,D)\}$</strong> with payoff vector $g(D,D) = (-5,-5)$. Note: since $D$ is strictly dominant for both players, this equilibrium was already found in §2.1.</div></div>
   </div>
 </div>
 
 <!-- GAME 4 -->
 <div class="example-box">
-  <div class="example-badge">Exercise 3.2.D · 3×2 Game with Ties (Game 4)</div>
+  <div class="example-badge">Exercise 3.2.D · Game 4</div>
   <div class="example-context">
-    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="2">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
@@ -1410,9 +1409,8 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 <!-- GAME 5 -->
 <div class="example-box">
-  <div class="example-badge">Exercise 3.2.E · 3×3 Game (Game 5)</div>
+  <div class="example-badge">Exercise 3.2.E · Game 5</div>
   <div class="example-context">
-    Find the Nash equilibria of the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
       <tr><th></th><th></th><th colspan="3">Player 2</th></tr>
       <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
@@ -1535,7 +1533,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 </div>
 
 <div class="example-box">
-  <div class="example-badge">Exercise 3.3.A · Connections &amp; All-Equilibria Game</div>
+  <div class="example-badge">Exercise 3.3.A · Mixed Example</div>
   <div class="example-context">
     Consider the following game:
     <div class="matrix-wrap"><table class="payoff-matrix">
