@@ -582,11 +582,11 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="example-box">
   <div class="example-badge">Example 6 · Stag Hunt</div>
   <div class="example-context">
-    Two hunters independently decide what game to pursue: hunt a Stag / Deer ($D$) or catch small prey / Safe game ($S$).
+    Two players independently choose between two strategies: Stag ($S$) and Deer ($D$).
     <ul>
-      <li>Hunting a stag requires mutual cooperation: if both hunt stag, they succeed $\implies$ payoff $(2, 2)$.</li>
-      <li>If only one hunter pursues the stag, she fails alone $\implies$ payoff $0$.</li>
-      <li>Hunting safe game guarantees small prey independently of what the other hunter does $\implies$ payoff $1$.</li>
+      <li>If both choose Stag ($S$), each receives a payoff of 1: $g(S,S) = (1,1)$.</li>
+      <li>If one player chooses Stag ($S$) and the other chooses Deer ($D$), the player choosing Stag receives 1 while the player choosing Deer receives 0: $g(S,D) = (1,0)$ and $g(D,S) = (0,1)$.</li>
+      <li>If both choose Deer ($D$), they coordinate successfully and each receives a payoff of 2: $g(D,D) = (2,2)$.</li>
     </ul>
   </div>
   <div class="example-task">
@@ -595,7 +595,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   <button class="toggle-btn example-toggle" onclick="toggle(this,'sh-sol')">▶ Show Solution <span class="arrow">▼</span></button>
   <div class="collapsible" id="sh-sol">
     <div class="demo-step"><div class="step-num coral">1</div><div class="step-body"><strong>Players:</strong> $N = \{1, 2\}$.</div></div>
-    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Strategy sets:</strong> $S_1 = \{S, D\}$ and $S_2 = \{S, D\}$, where $S$ = Safe game, $D$ = Deer / Stag.</div></div>
+    <div class="demo-step"><div class="step-num coral">2</div><div class="step-body"><strong>Strategy sets:</strong> $S_1 = \{S, D\}$ and $S_2 = \{S, D\}$, where $S$ = Stag, $D$ = Deer.</div></div>
     <div class="demo-step"><div class="step-num coral">3</div><div class="step-body"><strong>Payoff functions:</strong><br>
       Individual payoffs:
       $$\begin{aligned}
@@ -616,7 +616,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
       </table></div>
     </div></div>
     <div class="demo-step"><div class="step-num coral">5</div><div class="step-body"><strong>Economic intuition &amp; game type:</strong><br>
-      Mutual cooperation $(D,D)$ yields the highest payoff $(2,2)$, but hunting the stag is risky if trust is lacking. The safe action $S$ guarantees 1 with zero risk. Captures the trade-off between payoff efficiency and risk dominance: <span class="game-tag cyan">🤝 Coordination — Risk vs. Reward</span>.
+      Coordinating on Deer $(D,D)$ yields the highest payoff $(2,2)$ for both players, but choosing Deer ($D$) is risky because if the other player chooses Stag ($S$), the Deer player gets 0. Choosing Stag ($S$) guarantees a payoff of 1 regardless of what the other player chooses. This illustrates the tension between payoff efficiency and strategic uncertainty: <span class="game-tag cyan">🤝 Coordination</span>.
     </div></div>
   </div>
 </div>
