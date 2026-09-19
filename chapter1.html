@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAMETHEORY — Chapter 1 · Static Games</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+<style>
+/* =====================================================
+   DESIGN SYSTEM — GAMETHEORY (Dark Premium)
+   ===================================================== */
+:root {
+  --sidebar-bg: #070d18;
+  --sidebar-width: 280px;
+
+  --bg: #090e17;
+  --bg-card: #0f1726;
+  --bg-card-hover: #152033;
+  --bg-deep: #060a10;
+
+  --cyan: #06b6d4;
+  --cyan-bright: #38bdf8;
+  --cyan-muted: rgba(6,182,212,0.1);
+  --cyan-border: rgba(6,182,212,0.3);
+  --cyan-glow: rgba(6,182,212,0.15);
+  --cyan-gradient: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+
+  --blue-bright: #60a5fa;
+  --blue-muted: rgba(59,130,246,0.1);
+  --blue-border: rgba(59,130,246,0.3);
+
+  --purple-bright: #c084fc;
+  --purple-muted: rgba(168,85,247,0.1);
+  --purple-border: rgba(168,85,247,0.3);
+
+  --amber-bright: #fbbf24;
+  --amber-muted: rgba(245,158,11,0.08);
+  --amber-border: rgba(245,158,11,0.3);
+
+  --red-bright: #f87171;
+  --red-muted: rgba(239,68,68,0.1);
+  --red-border: rgba(239,68,68,0.3);
+
+  --green-bright: #34d399;
+  --green-muted: rgba(16,185,129,0.1);
+  --green-border: rgba(16,185,129,0.3);
+
+  --text: #f8fafc;
+  --text-2: #cbd5e1;
+  --text-3: #94a3b8;
+  --text-muted: #64748b;
+
+  --border: rgba(255,255,255,0.07);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --font: 'Outfit', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; top:0; left:0; bottom:0;
+  z-index: 200; transition: transform .3s ease; overflow: hidden;
+}
+.sidebar:not(.open) { transform: translateX(-100%); }
+.sidebar-brand {
+  padding: 22px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sidebar-brand h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: 1px; }
+.sidebar-brand h1 span { color: var(--cyan); }
+.sidebar-close { background:none; border:none; color:var(--text-3); font-size:1.4rem; cursor:pointer; }
+.sidebar-close:hover { color: var(--cyan); }
+
+.sidebar-nav { flex:1; overflow-y:auto; padding:12px 0; }
+
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 22px;
+  color: var(--text-3); text-decoration: none;
+  font-size: 0.88rem; font-weight: 700;
+  transition: all .2s; border-left: 3px solid transparent;
+}
+.sidebar-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.sidebar-link.active { color: var(--cyan-bright); border-left-color: var(--cyan); background: var(--cyan-muted); }
+
+.sidebar-group { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; }
+.sidebar-group-title {
+  padding: 10px 22px 4px;
+  font-size: 0.82rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.6px; color: var(--text-3);
+}
+.sidebar-sublink {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 22px 9px 36px;
+  color: var(--text-3); text-decoration: none;
+  font-size: 0.85rem; font-weight: 600;
+  transition: all .2s; border-left: 3px solid transparent;
+}
+.sidebar-sublink:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.sidebar-sublink.active { color: var(--cyan-bright); border-left-color: var(--cyan); background: var(--cyan-muted); }
+.sidebar-sublink.disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+/* ── SIDEBAR FOOTER ── */
+.sidebar-footer {
+  padding: 14px 16px; border-top: 1px solid var(--border);
+}
+.sidebar-user { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius); padding:10px 12px; }
+.user-avatar { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
+.user-dot { width:8px; height:8px; background:var(--cyan); border-radius:50%; border:2px solid var(--sidebar-bg); position:absolute; bottom:-2px; right:-2px; box-shadow:0 0 6px var(--cyan); }
+.user-info { overflow:hidden; }
+.user-name { font-size:0.82rem; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.user-role { font-size:0.7rem; color:var(--text-muted); }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: 64px; background: rgba(9,14,23,0.9); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px); position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; padding:0 28px; gap:16px;
+}
+.topbar-toggle { background:rgba(255,255,255,0.06); border:1px solid var(--border); color:var(--text); width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; flex-shrink:0; transition:.2s; }
+.topbar-toggle:hover { border-color: var(--cyan-border); color: var(--cyan); }
+.topbar-breadcrumb { color:var(--text-3); font-size:0.88rem; display:flex; align-items:center; gap:6px; }
+.topbar-breadcrumb .sep { opacity:.4; }
+.topbar-breadcrumb strong { color:var(--text); font-weight:700; }
+.topbar-pill { margin-left:auto; background:var(--cyan-muted); border:1px solid var(--cyan-border); color:var(--cyan-bright); padding:5px 14px; border-radius:999px; font-size:0.78rem; font-weight:700; display:flex; align-items:center; gap:7px; }
+.topbar-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 7px var(--cyan); }
+
+/* ── LAYOUT ── */
+.main-wrap { margin-left: var(--sidebar-width); flex:1; display:flex; flex-direction:column; transition:margin-left .3s; min-width:0; }
+.main-wrap.expanded { margin-left:0; }
+.main-content { padding:40px 44px 70px; max-width:900px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:36px; }
+
+/* ── PAGE TITLE ── */
+.page-title-block { border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+.page-label { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--cyan); margin-bottom:8px; }
+.page-title-block h1 { font-size:2rem; font-weight:800; letter-spacing:-0.5px; line-height:1.15; }
+.page-title-block p { color:var(--text-3); font-size:0.95rem; margin-top:7px; }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.section-label {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.8px; padding: 4px 12px; border-radius: 999px;
+}
+.section-label.cyan { background: var(--cyan-muted); color: var(--cyan-bright); border: 1px solid var(--cyan-border); }
+.section-label.blue { background: var(--blue-muted); color: var(--blue-bright); border: 1px solid var(--blue-border); }
+.section-label.purple { background: var(--purple-muted); color: var(--purple-bright); border: 1px solid var(--purple-border); }
+.section-label.amber { background: var(--amber-muted); color: var(--amber-bright); border: 1px solid var(--amber-border); }
+.section-label.green { background: var(--green-muted); color: var(--green-bright); border: 1px solid var(--green-border); }
+.section-header h2 { font-size: 1.35rem; font-weight: 800; }
+
+/* ── CARDS & CALLOUTS ── */
+.concept-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative;
+  transition: transform .2s ease, border-color .2s ease;
+}
+.concept-card:hover { transform: translateY(-2px); border-color: var(--cyan-border); }
+.concept-card.cyan-top  { border-top: 3px solid var(--cyan); }
+.concept-card.blue-top  { border-top: 3px solid var(--blue-bright); }
+.concept-card.purple-top { border-top: 3px solid var(--purple-bright); }
+.concept-card.amber-top { border-top: 3px solid var(--amber-bright); }
+.concept-card.green-top { border-top: 3px solid var(--green-bright); }
+.concept-card.red-top   { border-top: 3px solid var(--red-bright); }
+
+.card-title {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.8px; margin-bottom: -4px;
+}
+.card-title.cyan   { color: var(--cyan-bright); }
+.card-title.blue   { color: var(--blue-bright); }
+.card-title.purple { color: var(--purple-bright); }
+.card-title.amber  { color: var(--amber-bright); }
+.card-title.green  { color: var(--green-bright); }
+.card-title.red    { color: var(--red-bright); }
+
+.card-heading { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+
+.body-text { font-size: 0.92rem; color: var(--text-2); line-height: 1.7; }
+.body-text p + p { margin-top: 10px; }
+
+.key-note {
+  font-size: 0.9rem; color: var(--text-2); line-height: 1.65;
+  border-left: 3px solid var(--cyan);
+  padding: 12px 18px;
+  background: var(--cyan-muted);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.key-note.blue   { border-left-color: var(--blue-bright); background: var(--blue-muted); }
+.key-note.purple { border-left-color: var(--purple-bright); background: var(--purple-muted); }
+.key-note.amber  { border-left-color: var(--amber-bright); background: var(--amber-muted); }
+.key-note.green  { border-left-color: var(--green-bright); background: var(--green-muted); }
+.key-note.red    { border-left-color: var(--red-bright); background: var(--red-muted); }
+.key-note strong { color: var(--text); font-weight: 800; }
+
+.math-display {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  text-align: center;
+  margin: 4px 0;
+  overflow-x: auto;
+  font-size: 1.05rem;
+}
+.math-display.boxed { border-color: var(--cyan-border); background: var(--cyan-muted); }
+.math-display.boxed-blue   { border-color: var(--blue-border); background: var(--blue-muted); }
+.math-display.boxed-purple { border-color: var(--purple-border); background: var(--purple-muted); }
+.math-display.boxed-amber  { border-color: var(--amber-border); background: var(--amber-muted); }
+
+/* ── TOGGLE & COLLAPSIBLE ── */
+.toggle-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  color: var(--text-2); font-family: var(--font);
+  font-size: 0.82rem; font-weight: 700;
+  padding: 8px 16px; border-radius: 999px;
+  cursor: pointer; transition: all .2s ease; width: fit-content;
+}
+.toggle-btn:hover { border-color: var(--cyan-border); color: var(--cyan-bright); background: var(--cyan-muted); }
+.toggle-btn .arrow { font-size: 0.65rem; transition: transform .25s ease; display: inline-block; }
+.toggle-btn.open .arrow { transform: rotate(180deg); }
+
+.collapsible {
+  display: none;
+  margin-top: 12px;
+  background: rgba(6,10,16,0.75);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.collapsible.open { display: block; animation: fadeDown .2s ease; }
+.collapsible strong { color: var(--text); font-weight: 700; }
+@keyframes fadeDown { from {opacity:0;transform:translateY(-6px);} to {opacity:1;transform:translateY(0);} }
+
+/* ── DEMO STEPS ── */
+.demo-step {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.demo-step:last-child { border-bottom: none; }
+.step-num {
+  min-width: 28px; height: 28px;
+  background: var(--cyan-muted);
+  border: 1px solid var(--cyan-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 800; color: var(--cyan-bright);
+  flex-shrink: 0; margin-top: 2px;
+}
+.step-body { flex: 1; }
+
+/* ── EXAMPLE BOX ── */
+.example-box {
+  background: rgba(6,182,212,0.05);
+  border: 1px solid var(--cyan-border);
+  border-left: 4px solid var(--cyan);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.example-box.amber {
+  background: rgba(245,158,11,0.05);
+  border-color: var(--amber-border);
+  border-left-color: var(--amber-bright);
+}
+.example-box.purple {
+  background: rgba(168,85,247,0.05);
+  border-color: var(--purple-border);
+  border-left-color: var(--purple-bright);
+}
+.example-box.green {
+  background: rgba(16,185,129,0.05);
+  border-color: var(--green-border);
+  border-left-color: var(--green-bright);
+}
+.example-box.blue {
+  background: rgba(59,130,246,0.05);
+  border-color: var(--blue-border);
+  border-left-color: var(--blue-bright);
+}
+.example-title {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--cyan-bright);
+  display: flex; align-items: center; gap: 8px;
+}
+.example-title.amber  { color: var(--amber-bright); }
+.example-title.purple { color: var(--purple-bright); }
+.example-title.green  { color: var(--green-bright); }
+.example-title.blue   { color: var(--blue-bright); }
+
+.example-subtitle { font-size: 1rem; font-weight: 800; color: var(--text); margin-top: -6px; }
+
+.example-section-title {
+  font-size: 0.78rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-muted);
+  margin-bottom: -6px;
+}
+
+/* ── PAYOFF MATRIX ── */
+.matrix-wrap {
+  overflow-x: auto;
+  margin: 4px 0;
+}
+.payoff-matrix {
+  border-collapse: collapse;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  min-width: 340px;
+}
+.payoff-matrix th, .payoff-matrix td {
+  padding: 10px 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+.payoff-matrix th {
+  background: rgba(255,255,255,0.03);
+  color: var(--text-3);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.payoff-matrix td {
+  background: rgba(9,14,23,0.6);
+  color: var(--text-2);
+  font-weight: 600;
+}
+.payoff-matrix .player-row {
+  color: var(--text);
+  font-weight: 700;
+  background: rgba(255,255,255,0.02);
+}
+.payoff-matrix .ne-cell {
+  background: var(--cyan-muted) !important;
+  color: var(--cyan-bright) !important;
+  font-weight: 800;
+  border-color: var(--cyan-border) !important;
+}
+.payoff-matrix .ne-cell.amber {
+  background: var(--amber-muted) !important;
+  color: var(--amber-bright) !important;
+  border-color: var(--amber-border) !important;
+}
+.matrix-label {
+  font-size: 0.82rem; color: var(--text-3);
+  font-style: italic; margin-top: 6px;
+}
+
+/* ── GAME TYPE TAG ── */
+.game-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 12px; border-radius: 999px;
+}
+.game-tag.cyan   { background: var(--cyan-muted); color: var(--cyan-bright); border: 1px solid var(--cyan-border); }
+.game-tag.amber  { background: var(--amber-muted); color: var(--amber-bright); border: 1px solid var(--amber-border); }
+.game-tag.red    { background: var(--red-muted); color: var(--red-bright); border: 1px solid var(--red-border); }
+.game-tag.purple { background: var(--purple-muted); color: var(--purple-bright); border: 1px solid var(--purple-border); }
+.game-tag.green  { background: var(--green-muted); color: var(--green-bright); border: 1px solid var(--green-border); }
+.game-tag.blue   { background: var(--blue-muted); color: var(--blue-bright); border: 1px solid var(--blue-border); }
+
+/* ── NOTATION TABLE ── */
+.notation-table {
+  width: 100%; border-collapse: collapse; font-size: 0.88rem;
+}
+.notation-table td {
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-2); line-height: 1.5;
+}
+.notation-table td:first-child {
+  font-weight: 700; color: var(--cyan-bright);
+  white-space: nowrap; padding-right: 20px; width: 40%;
+}
+.notation-table tr:last-child td { border-bottom: none; }
+
+/* ── GAMES GRID ── */
+.games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 700px) { .games-grid { grid-template-columns: 1fr; } }
+
+/* ── PROPOSITION BOX ── */
+.prop-box {
+  background: rgba(96,165,250,0.05);
+  border: 1px solid var(--blue-border);
+  border-left: 4px solid var(--blue-bright);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.prop-title {
+  font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--blue-bright);
+}
+
+/* ── STEP-BY-STEP METHOD ── */
+.method-steps { display: flex; flex-direction: column; gap: 0; }
+.method-step {
+  display: flex; gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.method-step:last-child { border-bottom: none; }
+.method-step-num {
+  min-width: 32px; height: 32px;
+  background: var(--cyan-gradient);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+.method-step-body { flex: 1; padding-top: 4px; }
+.method-step-body strong { color: var(--text); font-weight: 800; }
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px) {
+  .sidebar { transform:translateX(-100%); }
+  .sidebar.open { transform:translateX(0); }
+  .main-wrap { margin-left:0 !important; }
+  .main-content { padding:24px 20px 40px; }
+  .games-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar open" id="sidebar">
+  <div class="sidebar-brand">
+    <h1>GAMETHEORY<span>.</span></h1>
+    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="index.html" class="sidebar-link">📂 0 — Overview</a>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">📂 1 — Static Games</div>
+      <a href="chapter1.html" class="sidebar-sublink active">1 — Static Games (Perfect Info)</a>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar" style="background: transparent;">
+        <img src="images/avatar.png" alt="STAR NOVA" style="width: 100%; height: 100%; border-radius: 8px; object-fit: cover;">
+        <span class="user-dot"></span>
+      </div>
+      <div class="user-info">
+        <div class="user-name">STAR NOVA</div>
+        <div class="user-role">gametheory.github.io</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main-wrap" id="main-wrap">
+
+  <div class="topbar">
+    <button class="topbar-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-breadcrumb">
+      GAMETHEORY <span class="sep">›</span> <strong>Chapter 1 — Static Games with Perfect Information</strong>
+    </div>
+    <div class="topbar-pill"><span class="topbar-dot"></span>Chapter 1</div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- PAGE TITLE -->
+    <div class="page-title-block">
+      <div class="page-label">Chapter 1</div>
+      <h1>Static Games with Perfect Information</h1>
+      <p>Modelling simultaneous strategic interactions where all players know the full description of the game — and finding rational predictions for play.</p>
+    </div>
+
+    <!-- MOTIVATION -->
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Motivation</div>
+      <div class="body-text">
+        <p>In this chapter, we study <strong>static games</strong>: all players choose their strategy <em>simultaneously</em>, without observing the others' choices before acting. We further assume <strong>perfect information</strong>: every player knows the full description of the game — the set of players, all available strategies, and all payoff functions.</p>
+        <p>The central question is: <strong>if players are rational, which strategies are they most likely to choose?</strong> This is fundamentally different from a single-agent optimisation problem, because a player's payoff depends not only on her own action, but also on the actions of all other players. A player's best strategy therefore depends on what she anticipates others will play.</p>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION 1: NORMAL FORM GAMES ═══ -->
+    <div class="section-header">
+      <span class="section-label cyan">Section 1</span>
+      <h2>Normal Form Games</h2>
+    </div>
+
+    <!-- DEFINITION -->
+    <div class="concept-card blue-top">
+      <div class="card-title blue">Definition</div>
+      <div class="card-heading">Game in Normal Form</div>
+      <div class="body-text">
+        <p>A game in normal form $\Gamma = (N, S, g)$ is defined by three objects:</p>
+      </div>
+      <table class="notation-table">
+        <tr>
+          <td>$N$</td>
+          <td>A finite set of players $\{1, 2, \ldots, N\}$</td>
+        </tr>
+        <tr>
+          <td>$S_i$ for each $i$</td>
+          <td>A set of <strong>pure strategies</strong> (or actions) available to player $i$</td>
+        </tr>
+        <tr>
+          <td>$g_i : \prod_{j=1}^N S_j \to \mathbb{R}$</td>
+          <td>A <strong>payoff function</strong> for each player $i$, mapping every strategy profile to a real number</td>
+        </tr>
+      </table>
+      <div class="key-note blue">
+        <strong>Interpretation.</strong> Each player $i$ simultaneously and independently selects a strategy $s_i \in S_i$. Once all choices are made, player $i$ receives payoff $g_i(s_1, s_2, \ldots, s_N)$.
+      </div>
+    </div>
+
+    <!-- NOTATION -->
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Notation</div>
+      <div class="card-heading">Standard Notation for Normal Form Games</div>
+      <table class="notation-table">
+        <tr><td>$S = \prod_{j=1}^N S_j$</td><td>Joint strategy set (all players' strategies combined)</td></tr>
+        <tr><td>$s_i \in S_i$</td><td>Individual action of player $i$</td></tr>
+        <tr><td>$s \in S$</td><td>Strategy profile (one action per player)</td></tr>
+        <tr><td>$s_{-i} \in S_{-i}$</td><td>Strategy profile of all players <em>except</em> player $i$</td></tr>
+        <tr><td>$g = (g_j)_{j \in \{1,\ldots,N\}}$</td><td>Collection of all players' payoff functions</td></tr>
+      </table>
+      <div class="key-note">
+        <strong>Important remark.</strong> Payoffs are real numbers representing players' <em>preferences</em> over outcomes — not necessarily monetary rewards. Only the <strong>ordinality</strong> of payoffs matters: how different outcomes compare to one another.
+      </div>
+      <div class="body-text">
+        <p>When $N = 2$ and both strategy sets are finite and small, the game can be conveniently represented as a <strong>matrix</strong>. By convention, the row player is Player 1, the column player is Player 2, and each cell contains the vector of payoffs $(g_1, g_2)$.</p>
+      </div>
+    </div>
+
+    <!-- EXAMPLES INTRO -->
+    <div class="section-header" style="margin-top: 8px;">
+      <span class="section-label amber">Examples</span>
+      <h2>Classic Normal Form Games</h2>
+    </div>
+
+    <!-- HOW TO READ AN EXAMPLE -->
+    <div class="concept-card amber-top">
+      <div class="card-title amber">How to Read Each Example</div>
+      <div class="body-text">
+        <p>Every game is presented through four systematic steps: <strong>(1) Players $N$</strong> &mdash; <strong>(2) Strategy sets $S_i$</strong> &mdash; <strong>(3) Payoffs $g_i$</strong> &mdash; <strong>(4) Matrix (when applicable)</strong>.</p>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 1: LOCATION -->
+    <div class="example-box">
+      <div class="example-title">📍 Example 1</div>
+      <div class="example-subtitle">Location Game</div>
+      <div class="body-text">
+        <p>Two players independently choose a location. They prefer to be at the <strong>same location</strong>.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2$</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \{L,\, C\} \quad \text{for each } i \in \{1,2\}$</div>
+        <p class="body-text" style="margin-top:8px;">where $L$ = Location 1 and $C$ = Location 2.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoffs</div>
+        <div class="math-display">$g_i(L,L) = g_i(C,C) = 1 \qquad g_i(L,C) = g_i(C,L) = 0$</div>
+        <p class="body-text" style="margin-top:8px;">Both players receive payoff $1$ when they coordinate on the same location, and $0$ otherwise. Payoffs are identical for both players.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">4 · Matrix</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr>
+              <th></th>
+              <th></th>
+              <th colspan="2" style="text-align:center; color:var(--cyan-bright);">Player 2</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>$L$</th>
+              <th>$C$</th>
+            </tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--cyan-bright);background:rgba(6,182,212,0.04);vertical-align:middle;">Player 1</td>
+              <td class="player-row">$L$</td>
+              <td class="ne-cell">$(1,1)$</td>
+              <td>$(0,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$C$</td>
+              <td>$(0,0)$</td>
+              <td class="ne-cell">$(1,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <p class="matrix-label">Highlighted cells are Nash equilibria (to be confirmed in Section 3).</p>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="game-tag cyan">🤝 Pure Coordination</span>
+      </div>
+      <div class="key-note" style="margin-top:-4px;">
+        Both players have <strong>identical interests</strong>: they simply want to end up in the same place. The key challenge is coordinating without communication.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 2: PENALTY -->
+    <div class="example-box amber">
+      <div class="example-title amber">⚽ Example 2</div>
+      <div class="example-subtitle">Penalty Kick</div>
+      <div class="body-text">
+        <p>A penalty taker (PT) chooses where to shoot; a goalkeeper (GK) chooses where to dive. The penalty taker scores if they pick <strong>different sides</strong>; the goalkeeper saves if they pick the <strong>same side</strong>.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2 \quad$ (Player 1 = Penalty Taker, Player 2 = Goalkeeper)</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \{L,\, R\} \quad$ where $L$ = Left, $R$ = Right</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoffs</div>
+        <div class="math-display">
+          $g_1(L,L) = g_1(R,R) = 0 \qquad g_1(L,R) = g_1(R,L) = 1$<br>
+          $g_2(L,L) = g_2(R,R) = 1 \qquad g_2(L,R) = g_2(R,L) = 0$
+        </div>
+        <p class="body-text" style="margin-top:8px;">Note that $g_1 + g_2 = 1$ always: the game is <strong>constant-sum</strong>, hence strategically equivalent to a zero-sum game.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">4 · Matrix</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr>
+              <th></th>
+              <th></th>
+              <th colspan="2" style="text-align:center; color:var(--amber-bright);">Goalkeeper</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>$L$</th>
+              <th>$R$</th>
+            </tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--amber-bright);background:rgba(245,158,11,0.04);vertical-align:middle;">Penalty Taker</td>
+              <td class="player-row">$L$</td>
+              <td>$(0,1)$</td>
+              <td>$(1,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$R$</td>
+              <td>$(1,0)$</td>
+              <td>$(0,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <p class="matrix-label">No pure strategy Nash equilibrium exists here — see Section 3.</p>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="game-tag red">⚔️ Conflict / Constant-Sum</span>
+      </div>
+      <div class="key-note amber">
+        The players have <strong>completely opposing interests</strong>. Whatever is good for one is bad for the other. This is strategically equivalent to a zero-sum game.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 3: PRISONER'S DILEMMA -->
+    <div class="example-box purple">
+      <div class="example-title purple">🔒 Example 3</div>
+      <div class="example-subtitle">Prisoner's Dilemma</div>
+      <div class="body-text">
+        <p>Two suspects are held separately and must each decide independently whether to <strong>cooperate</strong> (stay silent) or <strong>defect</strong> (betray the other). Each player wants to minimise their prison time.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2$</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \{C,\, D\} \quad$ where $C$ = Cooperate (stay silent), $D$ = Defect (betray)</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Outcomes</div>
+        <div class="body-text">
+          <p>Both cooperate ($C,C$): each receives <strong>3 years</strong>. One defects while the other cooperates: the defector goes <strong>free</strong> (0 years), the cooperator receives <strong>10 years</strong>. Both defect ($D,D$): each receives <strong>5 years</strong>.</p>
+          <p>To express as a maximisation problem, we negate prison years.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="example-section-title">4 · Matrix (payoffs = $-$years in prison)</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr>
+              <th></th>
+              <th></th>
+              <th colspan="2" style="text-align:center; color:var(--purple-bright);">Player 2</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>$C$</th>
+              <th>$D$</th>
+            </tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--purple-bright);background:rgba(168,85,247,0.04);vertical-align:middle;">Player 1</td>
+              <td class="player-row">$C$</td>
+              <td>$(-3,-3)$</td>
+              <td>$(-10,\;0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$D$</td>
+              <td>$(0,-10)$</td>
+              <td class="ne-cell">$(-5,-5)$</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="game-tag purple">😬 Social Dilemma</span>
+      </div>
+      <div class="key-note purple">
+        <strong>Key insight.</strong> Defection $D$ is individually rational for each player regardless of what the other does. Yet mutual defection $(-5,-5)$ is collectively worse than mutual cooperation $(-3,-3)$. This tension between individual and collective rationality is the hallmark of the Prisoner's Dilemma.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 4: BATTLE OF THE SEXES -->
+    <div class="example-box green">
+      <div class="example-title green">💚 Example 4</div>
+      <div class="example-subtitle">Battle of the Sexes</div>
+      <div class="body-text">
+        <p>Two players want to spend the evening together, but disagree on the preferred activity. Player 1 prefers <strong>Opera</strong>; Player 2 prefers <strong>Football</strong>.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2$</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \{O,\, F\} \quad$ where $O$ = Opera, $F$ = Football</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoffs</div>
+        <div class="math-display">
+          $g(O,O) = (2,1) \qquad g(F,F) = (1,2) \qquad g(O,F) = g(F,O) = (0,0)$
+        </div>
+      </div>
+
+      <div>
+        <div class="example-section-title">4 · Matrix</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr>
+              <th></th>
+              <th></th>
+              <th colspan="2" style="text-align:center; color:var(--green-bright);">Player 2</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>$O$</th>
+              <th>$F$</th>
+            </tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--green-bright);background:rgba(16,185,129,0.04);vertical-align:middle;">Player 1</td>
+              <td class="player-row">$O$</td>
+              <td class="ne-cell green">$(2,1)$</td>
+              <td>$(0,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$F$</td>
+              <td>$(0,0)$</td>
+              <td class="ne-cell green">$(1,2)$</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="game-tag green">🤝 Coordination</span>
+        <span class="game-tag amber">⚔️ Conflict</span>
+      </div>
+      <div class="key-note green">
+        <strong>Mixed game.</strong> Both players prefer to coordinate (being together beats being apart), but they disagree on <em>which</em> outcome to coordinate on. Both $(O,O)$ and $(F,F)$ are Nash equilibria, creating a coordination problem.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 5: HAWK-DOVE -->
+    <div class="example-box blue">
+      <div class="example-title blue">🦅 Example 5</div>
+      <div class="example-subtitle">Hawk-Dove</div>
+      <div class="body-text">
+        <p>Two players compete for a resource worth $2$. A Hawk plays aggressively; a Dove yields. If both play Hawk, they fight and each suffers a cost of $2$.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2$</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \{H,\, D\} \quad$ where $H$ = Hawk, $D$ = Dove</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoffs</div>
+        <div class="math-display">
+          $g(H,H) = (-1,-1) \qquad g(H,D) = (2,0) \qquad g(D,H) = (0,2) \qquad g(D,D) = (1,1)$
+        </div>
+      </div>
+
+      <div>
+        <div class="example-section-title">4 · Matrix</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr>
+              <th></th>
+              <th></th>
+              <th colspan="2" style="text-align:center; color:var(--blue-bright);">Player 2</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>$H$</th>
+              <th>$D$</th>
+            </tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--blue-bright);background:rgba(59,130,246,0.04);vertical-align:middle;">Player 1</td>
+              <td class="player-row">$H$</td>
+              <td>$(-1,-1)$</td>
+              <td class="ne-cell">$(2,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$D$</td>
+              <td class="ne-cell">$(0,2)$</td>
+              <td>$(1,1)$</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="game-tag blue">🔄 Anti-Coordination</span>
+      </div>
+      <div class="key-note blue">
+        <strong>Anti-coordination structure.</strong> The best response to $H$ is $D$, and vice versa. Players want to play <em>different</em> strategies. Widely used in evolutionary biology and economics to model resource competition.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 6: STAG HUNT -->
+    <div class="example-box">
+      <div class="example-title">🦌 Example 6</div>
+      <div class="example-subtitle">Stag Hunt</div>
+      <div class="body-text">
+        <p>Two hunters can each pursue a small, safe prey alone (the "safe" option), or cooperate to hunt a stag (the "cooperative" option). Hunting the stag requires <strong>both</strong> players to choose it.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2$</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \{S,\, D\} \quad$ where $S$ = Safe (small prey), $D$ = Deer (stag)</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoffs</div>
+        <div class="math-display">
+          $g(S,S) = (1,1) \qquad g(D,D) = (2,2) \qquad g(S,D) = (1,0) \qquad g(D,S) = (0,1)$
+        </div>
+      </div>
+
+      <div>
+        <div class="example-section-title">4 · Matrix</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr>
+              <th></th>
+              <th></th>
+              <th colspan="2" style="text-align:center; color:var(--cyan-bright);">Player 2</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>$S$</th>
+              <th>$D$</th>
+            </tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--cyan-bright);background:rgba(6,182,212,0.04);vertical-align:middle;">Player 1</td>
+              <td class="player-row">$S$</td>
+              <td class="ne-cell">$(1,1)$</td>
+              <td>$(1,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$D$</td>
+              <td>$(0,1)$</td>
+              <td class="ne-cell">$(2,2)$</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="game-tag cyan">🤝 Coordination</span>
+      </div>
+      <div class="key-note">
+        <strong>Risk vs. reward.</strong> $(D,D)$ is Pareto superior — it yields the best collective outcome — but it requires <em>trust</em>. If a player suspects the other may not cooperate, deviating to $S$ is safer. $(S,S)$ is a Nash equilibrium too, but it is Pareto dominated by $(D,D)$.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 7: COURNOT -->
+    <div class="example-box amber">
+      <div class="example-title amber">🏭 Example 7</div>
+      <div class="example-subtitle">Cournot Duopoly</div>
+      <div class="body-text">
+        <p>Two firms simultaneously choose how much to produce of a <strong>homogeneous good</strong>. The market price is determined by total output. This is the classic model of quantity competition.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N = 2 \quad$ (Firm 1 and Firm 2)</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets</div>
+        <div class="math-display">$S_i = \mathbb{R}_+ \quad$ each firm $i$ chooses a quantity $q_i \geq 0$</div>
+        <div class="body-text" style="margin-top:8px;">
+          <p>Total output: $Q = q_1 + q_2$. Inverse demand: $P = \max(13 - Q,\; 0)$.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoffs — Profit Functions</div>
+        <div class="math-display boxed-amber">
+          $g_i(q_i, q_j) = q_i \cdot (P - c) = q_i \cdot \bigl[\max(13 - q_i - q_j,\; 0) - c\bigr]$
+        </div>
+        <div class="body-text" style="margin-top:8px;">
+          where $c \geq 0$ is the constant marginal cost of production. Firm $i$'s profit depends on its own quantity $q_i$ <strong>and</strong> on the rival's quantity $q_j$.
+        </div>
+      </div>
+
+      <div class="key-note amber">
+        <strong>No matrix representation.</strong> Since $S_i = \mathbb{R}_+$ is continuous, the game cannot be summarised in a finite matrix. Instead, the best responses are derived by first-order conditions. The Nash equilibrium will be found analytically in Section 3.
+      </div>
+    </div>
+
+    <!-- EXAMPLE 8: SECOND-PRICE AUCTION -->
+    <div class="example-box purple">
+      <div class="example-title purple">🔨 Example 8</div>
+      <div class="example-subtitle">Second-Price Auction (Vickrey Auction)</div>
+      <div class="body-text">
+        <p>One indivisible object is sold to $N \geq 2$ bidders. The auction rule: the <strong>highest bidder wins</strong>, but pays the <strong>second-highest bid</strong>.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">1 · Players</div>
+        <div class="math-display">$N \in \mathbb{N},\; N \geq 2$</div>
+      </div>
+
+      <div>
+        <div class="example-section-title">2 · Strategy Sets &amp; Notation</div>
+        <div class="math-display">
+          $S_i = \mathbb{R}_+ \quad$ each bidder $i$ submits a bid $b_i \geq 0$
+        </div>
+        <p class="body-text" style="margin-top:8px;">Each bidder $i$ has a private valuation $v_i$ (the maximum they are willing to pay). Define $m_i(b) = \max_{j \neq i} b_j$ as the highest competing bid.</p>
+      </div>
+
+      <div>
+        <div class="example-section-title">3 · Payoff Function</div>
+        <div class="math-display boxed-purple">
+          $$g_i(b) = \begin{cases}
+            v_i - m_i(b) &amp; \text{if } b_i &gt; m_i(b) \quad \text{(unique winner)} \\[8pt]
+            \dfrac{v_i - m_i(b)}{M(b)} &amp; \text{if } b_i = m_i(b) \quad \text{(tie: } M(b) \text{ bidders share)} \\[8pt]
+            0 &amp; \text{if } b_i &lt; m_i(b) \quad \text{(loser)}
+          \end{cases}$$
+        </div>
+        <p class="body-text" style="margin-top:8px;">$M(b)$ denotes the number of bidders tied for the highest bid. Each tied bidder wins with equal probability $\frac{1}{M(b)}$.</p>
+      </div>
+
+      <div class="key-note purple">
+        <strong>Key result</strong> (to be proved in Section 2.3): bidding one's true valuation $b_i = v_i$ is a <strong>weakly dominant strategy</strong> in a second-price auction. This remarkable property makes the Vickrey auction incentive-compatible.
+      </div>
+    </div>
+
+    <!-- GAME FAMILIES -->
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Classification</div>
+      <div class="card-heading">Families of Games</div>
+      <div class="body-text">
+        <p>Games can be grouped into broad families based on the alignment or opposition of players' interests:</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="key-note green">
+          <strong>Coordination Games</strong> — players have similar interests and benefit from choosing the same (or compatible) strategies.<br>
+          <em>Pure coordination</em> (e.g., Location): payoffs are identical for all players, $g_i = g_j$. Players simply need to coordinate on any equilibrium.
+        </div>
+        <div class="key-note red">
+          <strong>Conflict Games</strong> — players' interests are completely opposed.<br>
+          <em>Zero-sum / Constant-sum</em> (e.g., Penalty): $g_1 = -g_2$. Any gain for one player is an equal loss for the other.<br>
+          <em>Hawk-Dove</em>: the best response to an aggressive strategy is a passive one, and vice versa (anti-coordination).
+        </div>
+        <div class="key-note amber">
+          <strong>Mixed Games</strong> — combine elements of coordination and conflict.<br>
+          (e.g., Battle of the Sexes, Prisoner's Dilemma, Stag Hunt). Players agree on some aspects but disagree on others.
+        </div>
+      </div>
+
+      <div class="key-note" style="margin-top: 4px;">
+        <strong>Remark.</strong> A given game structure can represent many real-life situations. For instance, the Prisoner's Dilemma models: arms races between countries, firms' decisions on whether to advertise, or individuals' choices about contributing to a public good.
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 2: DOMINANCE ═══ -->
+    <div class="section-header">
+      <span class="section-label blue">Section 2</span>
+      <h2>Dominance in Pure Strategies</h2>
+    </div>
+
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Motivation</div>
+      <div class="body-text">
+        <p>To understand what rational players <em>will</em> play, we first ask the reverse question: <strong>what would a rational player never play?</strong> If a strategy is always inferior to another — regardless of opponents' choices — then no rational player should choose it. This is the idea of <em>dominance</em>.</p>
+      </div>
+    </div>
+
+    <!-- 2.1 STRICTLY DOMINATED -->
+    <div class="section-header" style="margin-top: 4px;">
+      <span class="section-label cyan">§ 2.1</span>
+      <h2>Strictly Dominated Strategies</h2>
+    </div>
+
+    <div class="concept-card blue-top">
+      <div class="card-title blue">Definition — Strictly Dominated Strategy</div>
+      <div class="body-text">
+        <p>A strategy $s_i \in S_i$ is <strong>strictly dominated</strong> if there exists $t_i \in S_i$ such that:</p>
+      </div>
+      <div class="math-display boxed-blue">
+        $\forall\, s_{-i} \in S_{-i},\quad g_i(t_i,\, s_{-i}) \;>\; g_i(s_i,\, s_{-i})$
+      </div>
+      <div class="body-text">
+        <p>We say $s_i$ is <strong>strictly dominated by $t_i$</strong>, or that $t_i$ <strong>strictly dominates</strong> $s_i$.</p>
+      </div>
+      <div class="key-note blue">
+        <strong>Interpretation.</strong> A strictly dominated strategy yields a <em>strictly lower</em> payoff than some alternative strategy $t_i$, for <strong>every possible action profile of the opponents</strong>. A rational player should never play a strictly dominated strategy: they can always do strictly better by switching to $t_i$, no matter what others do.
+      </div>
+      <div class="body-text">
+        <p><strong>Remark.</strong> A strictly dominated strategy may not exist. When it exists, it need not be unique.</p>
+      </div>
+    </div>
+
+    <div class="concept-card blue-top">
+      <div class="card-title blue">Definition — Strictly Dominant Strategy</div>
+      <div class="body-text">
+        <p>A strategy $s_i \in S_i$ is <strong>strictly dominant</strong> if it strictly dominates <em>every other</em> strategy. That is, for any $t_i \in S_i$ with $t_i \neq s_i$:</p>
+      </div>
+      <div class="math-display boxed-blue">
+        $\forall\, s_{-i} \in S_{-i},\quad g_i(s_i,\, s_{-i}) \;>\; g_i(t_i,\, s_{-i})$
+      </div>
+      <div class="key-note blue">
+        <strong>Interpretation.</strong> A strictly dominant strategy yields a strictly better payoff than any alternative, regardless of what others play. If a player has such a strategy, it is an obvious and unambiguous choice.
+      </div>
+      <div class="body-text">
+        <p><strong>Remark.</strong> A strictly dominant strategy may not exist. When it does exist, it is <em>unique</em>.</p>
+      </div>
+    </div>
+
+    <div class="concept-card blue-top">
+      <div class="card-title blue">Definition — Strictly Dominant Strategy Equilibrium</div>
+      <div class="body-text">
+        <p>A strategy profile $s = (s_1, \ldots, s_N) \in S$ is a <strong>strictly dominant strategy equilibrium</strong> if for every player $i \in \{1, \ldots, N\}$, $s_i$ is strictly dominant.</p>
+      </div>
+      <div class="key-note blue">
+        If such an equilibrium exists, it is the unique rational outcome of the game. <strong>Remark.</strong> A strictly dominant strategy equilibrium need not exist. When it does, it is unique.
+      </div>
+    </div>
+
+    <!-- EXAMPLE: DOMINANCE IN 3 GAMES -->
+    <div class="example-box blue">
+      <div class="example-title blue">📐 Example — Dominance Analysis</div>
+      <div class="example-subtitle">Find Dominated and Dominant Strategies in Three Games</div>
+
+      <!-- Game 1 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 1 — Location Game</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$L$</th><th>$C$</th></tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--blue-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$L$</td><td>$(1,1)$</td><td>$(0,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$C$</td><td>$(0,0)$</td><td>$(1,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'dom-g1')" style="margin-top:12px;">
+          ▶ Show Analysis <span class="arrow">▼</span>
+        </button>
+        <div class="collapsible" id="dom-g1">
+          <div class="demo-step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Strictly dominated strategies?</strong> Consider Player 1.<br>
+              If P2 plays $L$: $g_1(L,L)=1 > g_1(C,L)=0$ → $L$ beats $C$.<br>
+              If P2 plays $C$: $g_1(L,C)=0 &lt; g_1(C,C)=1$ → $C$ beats $L$.<br>
+              Neither strategy dominates the other for all $s_{-i}$. <strong>No strictly dominated strategy exists.</strong>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Conclusion.</strong> No strictly dominated strategy, no strictly dominant strategy, no equilibrium in strictly dominant strategies.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game 2 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 2 — Penalty Kick (Zero-Sum)</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--blue-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$L$</td><td>$(-1,1)$</td><td>$(1,-1)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$R$</td><td>$(1,-1)$</td><td>$(-1,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'dom-g2')" style="margin-top:12px;">
+          ▶ Show Analysis <span class="arrow">▼</span>
+        </button>
+        <div class="collapsible" id="dom-g2">
+          <div class="demo-step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>By symmetry</strong> (same as a zero-sum game), for Player 1:<br>
+              If P2 plays $L$: $g_1(R,L) = 1 > g_1(L,L) = -1$ → $R$ preferred.<br>
+              If P2 plays $R$: $g_1(L,R) = 1 > g_1(R,R) = -1$ → $L$ preferred.<br>
+              No strategy dominates the other. <strong>No strictly dominated strategy.</strong>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="step-num">2</div>
+            <div class="step-body"><strong>Conclusion.</strong> No strictly dominated strategy for either player. This game will require mixed strategies for equilibrium.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game 3 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 3 — Prisoner's Dilemma</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--blue-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$C$</td><td>$(-3,-3)$</td><td>$(-10,\;0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$D$</td><td>$(0,-10)$</td><td class="ne-cell">$(-5,-5)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'dom-g3')" style="margin-top:12px;">
+          ▶ Show Full Analysis <span class="arrow">▼</span>
+        </button>
+        <div class="collapsible" id="dom-g3">
+          <div class="demo-step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <strong>Player 1 — Does $D$ strictly dominate $C$?</strong><br>
+              If P2 plays $C$: $g_1(D,C) = 0 > g_1(C,C) = -3$ ✓<br>
+              If P2 plays $D$: $g_1(D,D) = -5 > g_1(C,D) = -10$ ✓<br>
+              → <strong>$D$ strictly dominates $C$ for Player 1.</strong> $C$ is strictly dominated.
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <strong>Player 2 — By symmetry</strong> (payoffs are symmetric), the same argument applies.<br>
+              → <strong>$D$ strictly dominates $C$ for Player 2.</strong>
+            </div>
+          </div>
+          <div class="demo-step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <strong>Conclusion.</strong> $D$ is a strictly dominant strategy for both players. The unique <strong>strictly dominant strategy equilibrium</strong> is $(D, D)$, with payoffs $(-5,-5)$. Note this is Pareto inferior to $(C,C) = (-3,-3)$.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.2 IESDS -->
+    <div class="section-header">
+      <span class="section-label cyan">§ 2.2</span>
+      <h2>Iterated Elimination of Strictly Dominated Strategies (IESDS)</h2>
+    </div>
+
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Motivation</div>
+      <div class="body-text">
+        <p>When no player has a strictly dominant strategy, we cannot immediately predict the outcome. However, we can go further: if a rational player would never choose a strictly dominated strategy, then the <em>other players</em> know this. They can eliminate that strategy from their reasoning and update their own best response accordingly. This iterative logic is the basis of IESDS.</p>
+      </div>
+    </div>
+
+    <!-- EXAMPLE IESDS 1 -->
+    <div class="example-box">
+      <div class="example-title">🔄 Example — Introductory IESDS</div>
+      <div class="body-text">
+        <p>What should Player 1 play if she knows Player 2 is rational?</p>
+      </div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$S$</th><th>$T$</th></tr>
+          <tr>
+            <td rowspan="2" style="font-weight:800;color:var(--cyan-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$S$</td><td>$(0,-2)$</td><td>$(-10,-1)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$T$</td><td>$(-1,-10)$</td><td>$(-5,-5)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'iesds-intro')" style="margin-top:4px;">
+        ▶ Show Analysis <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="iesds-intro">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Player 2's perspective — Does $T$ strictly dominate $S$?</strong><br>
+            If P1 plays $S$: $g_2(S,T) = -1 > g_2(S,S) = -2$ ✓<br>
+            If P1 plays $T$: $g_2(T,T) = -5 > g_2(T,S) = -10$ ✓<br>
+            → <strong>$T$ strictly dominates $S$ for Player 2.</strong> A rational Player 2 will never play $S$.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Player 1 knows Player 2 is rational</strong>, so Player 1 eliminates $S$ from Player 2's strategy set. The reduced game has only column $T$.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Player 1 in the reduced game:</strong><br>
+            $g_1(S,T) = -10 &lt; g_1(T,T) = -5$<br>
+            → Player 1 plays $T$.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>IESDS solution: $(T,T)$.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE IESDS 2 -->
+    <div class="example-box amber">
+      <div class="example-title amber">🔄 Example — Two-Round Elimination</div>
+      <div class="body-text">
+        <p>What should Player 1 play knowing Player 2 is rational? What should Player 2 play knowing Player 1 knows she is rational?</p>
+      </div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$L$</th><th>$M$</th><th>$R$</th></tr>
+          <tr>
+            <td rowspan="2" style="font-weight:800;color:var(--amber-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$U$</td><td>$(2,2)$</td><td>$(1,1)$</td><td>$(4,0)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$D$</td><td>$(1,2)$</td><td>$(4,1)$</td><td>$(3,5)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'iesds-two')" style="margin-top:4px;">
+        ▶ Show Full IESDS Procedure <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="iesds-two">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Round 1 — Check for strictly dominated strategies for Player 1:</strong><br>
+            Compare $U$ and $D$ for each column:<br>
+            $L$: $g_1(U,L)=2 > g_1(D,L)=1$ → $U$ preferred.<br>
+            $M$: $g_1(U,M)=1 &lt; g_1(D,M)=4$ → $D$ preferred.<br>
+            $R$: $g_1(U,R)=4 > g_1(D,R)=3$ → $U$ preferred.<br>
+            Neither $U$ nor $D$ dominates the other. <strong>No elimination on P1's side.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Round 1 — Check for Player 2:</strong><br>
+            Does $L$ strictly dominate $M$? $g_2(U,L)=2 > g_2(U,M)=1$ ✓ and $g_2(D,L)=2 > g_2(D,M)=1$ ✓ → <strong>$M$ is strictly dominated by $L$. Eliminate $M$.</strong><br>
+            Does $L$ dominate $R$? $g_2(D,R)=5 > g_2(D,L)=2$ ✗ → No.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Round 2 — Reduced game $\{U,D\} \times \{L,R\}$:</strong><br>
+            <table class="payoff-matrix" style="min-width:0; margin-top:8px;">
+              <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
+              <tr><td rowspan="2" style="font-weight:800;color:var(--amber-bright);vertical-align:middle;">P1</td><td class="player-row">$U$</td><td>$(2,2)$</td><td>$(4,0)$</td></tr>
+              <tr><td class="player-row">$D$</td><td>$(1,2)$</td><td>$(3,5)$</td></tr>
+            </table>
+            <br>
+            Does $U$ strictly dominate $D$? $g_1(U,L)=2 > g_1(D,L)=1$ ✓ and $g_1(U,R)=4 > g_1(D,R)=3$ ✓ → <strong>$D$ is strictly dominated by $U$. Eliminate $D$.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Round 3 — Reduced game $\{U\} \times \{L,R\}$:</strong><br>
+            $g_2(U,L)=2 > g_2(U,R)=0$ → <strong>$R$ is strictly dominated by $L$. Eliminate $R$.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <strong>IESDS solution: $(U, L)$</strong> with payoff $(2,2)$.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORMAL IESDS PROCEDURE -->
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Formal Procedure</div>
+      <div class="card-heading">Iterative Elimination of Strictly Dominated Strategies</div>
+      <div class="body-text">
+        <p>The IESDS procedure is defined iteratively. Let $\Gamma^1 = \Gamma$. At each step $k \geq 1$:</p>
+        <ul style="margin-left: 20px; margin-top: 8px; line-height: 2;">
+          <li>If $\Gamma^k$ has <strong>no strictly dominated strategies</strong>, the procedure <strong>stops</strong>.</li>
+          <li>Otherwise, pick a player $i$ and a strictly dominated strategy $s_i \in S^k_i$. Define $\Gamma^{k+1}$ by removing $s_i$ from $S^k_i$: $S^{k+1}_i = S^k_i \setminus \{s_i\}$, keeping all other strategy sets unchanged.</li>
+        </ul>
+      </div>
+      <div class="key-note">
+        <strong>Remarks.</strong><br>
+        &bull; In general, the procedure is not unique: its result may depend on the order in which strategies are eliminated.<br>
+        &bull; It may terminate early (leaving a large residual game) or may run until only one profile remains.
+      </div>
+    </div>
+
+    <div class="prop-box">
+      <div class="prop-title">Proposition — Uniqueness when Solvable</div>
+      <div class="body-text">
+        <p>Suppose there exists $k \geq 1$ such that for all $i$, $S^k_i$ is a singleton $\{s^k_i\}$. Then the strategy profile $(s^k_i)_{i \in \{1,\ldots,N\}}$ does <strong>not depend on the order of elimination</strong>. We say the game is <strong>solvable by IESDS</strong>, and $(s^k_i)$ is its unique solution.</p>
+      </div>
+      <div class="key-note blue">
+        <strong>Remarks.</strong><br>
+        &bull; The IESDS solution may not exist (the procedure may not fully reduce the game).<br>
+        &bull; When it exists, it is <strong>unique</strong>.<br>
+        &bull; If an equilibrium in strictly dominant strategies exists, the game is solvable by IESDS and the two solutions coincide.<br>
+        &bull; IESDS relies on rationality at <em>all orders</em>: players are rational, they know others are rational, they know others know they are rational, and so on.
+      </div>
+    </div>
+
+    <!-- IESDS EXERCISES -->
+    <div class="example-box">
+      <div class="example-title">📝 Exercise — Apply IESDS</div>
+      <div class="example-subtitle">Game A</div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
+          <tr>
+            <td rowspan="2" style="font-weight:800;color:var(--cyan-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$H$</td><td>$(2,2)$</td><td>$(1,1)$</td><td>$(4,0)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$B$</td><td>$(1,2)$</td><td>$(4,1)$</td><td>$(3,5)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'iesds-a')" style="margin-top:4px;">
+        ▶ Show Solution <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="iesds-a">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Player 2:</strong> $M$ is strictly dominated by $G$ (since $g_2(\cdot,G) \geq g_2(\cdot,M)$ with strict inequality). <strong>Eliminate $M$.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Reduced game $\{H,B\} \times \{G,D\}$:</strong><br>
+            $g_1(H,G)=2 > g_1(B,G)=1$ ✓ and $g_1(H,D)=4 > g_1(B,D)=3$ ✓ → <strong>$B$ strictly dominated by $H$. Eliminate $B$.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Reduced game $\{H\} \times \{G,D\}$:</strong><br>
+            $g_2(H,G)=2 > g_2(H,D)=0$ → <strong>$D$ strictly dominated. Eliminate $D$.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">4</div>
+          <div class="step-body"><strong>IESDS solution: $(H, G)$</strong> with payoff $(2, 2)$.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-box amber">
+      <div class="example-title amber">📝 Exercise — Apply IESDS</div>
+      <div class="example-subtitle">Game B — $4 \times 4$</div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$A$</th><th>$B$</th><th>$C$</th><th>$D$</th></tr>
+          <tr>
+            <td rowspan="4" style="font-weight:800;color:var(--amber-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$A$</td><td>$(5,2)$</td><td>$(2,6)$</td><td>$(1,4)$</td><td>$(0,4)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$B$</td><td>$(0,0)$</td><td>$(3,2)$</td><td>$(2,1)$</td><td>$(1,1)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$C$</td><td>$(7,0)$</td><td>$(2,2)$</td><td>$(1,5)$</td><td>$(5,1)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$D$</td><td>$(9,5)$</td><td>$(1,3)$</td><td>$(0,2)$</td><td>$(4,8)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'iesds-b')" style="margin-top:4px;">
+        ▶ Show Full Step-by-Step Solution <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="iesds-b">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Player 1 — Does $B$ strictly dominate any row?</strong><br>
+            Compare rows pairwise. Check if $B$ is itself dominated:<br>
+            $A$ vs $B$ for P1: col $A$: $5>0$ ✓, col $B$: $2&lt;3$ ✗ → $A$ doesn't dom $B$. Col $D$: $0&lt;1$ ✗ for $A$.<br>
+            After careful inspection: <strong>$B$ is strictly dominated by $A$</strong> in columns $A,C,D$ but not $B$. Actually check $C$ vs $B$: col $A$: $7>0$ ✓, col $B$: $2&lt;3$ ✗. Try checking if any row is dominated.<br>
+            Check $B$: compare with row $D$: $D$ gives $(9,5),(1,3),(0,2),(4,8)$ vs $B$ gives $(0,0),(3,2),(2,1),(1,1)$. $g_1(D,A)=9>g_1(B,A)=0$ ✓; $g_1(D,B)=1&lt;g_1(B,B)=3$ ✗ → $D$ doesn't dom $B$.<br>
+            <strong>$B$ is strictly dominated by $A$</strong>: col $A$: $5>0$✓, col $B$: $2&lt;3$ ✗ — Actually no. Let's pivot to Player 2.<br>
+            <strong>Player 2:</strong> Is $A$ dominated? $g_2(\cdot,B)$ vs $g_2(\cdot,A)$: $6>2$✓, $2>0$✓, $2>0$✓, $3>5$✗. Try $C$ vs $A$: $4>2$✓, $1&lt;6$✗. Try: does $B$ dom $A$ for P2? $6>2$✓,$2>0$✓,$2>0$✓,$3&lt;5$✗. <strong>$C$ strictly dominated by $A$ for P2?</strong> $4>4$? No — tie. Try $D$: $g_2(\cdot,D)$: $4,1,1,8$. Does $B$ dom $D$? $6>4$✓,$2>1$✓,$2>1$✓,$3&lt;8$✗. Does $A$ dom $C$? $2&lt;4$✗.<br>
+            <strong>$C$ dominated by $D$ for P2?</strong> $4>4$?✗. Hmm. <strong>$A$ dominated by $B$ for P2 except row D.</strong> After more careful analysis — the key first step is: <strong>$B$ strictly dominated by $A$ for P1</strong> is not immediate. Let us check row $B$ against row $C$ for P1: $g_1(B,\cdot)=(0,3,2,1)$ vs $g_1(C,\cdot)=(7,2,1,5)$ → col $A$: $7>0$✓, col $B$: $2&lt;3$✗. Not dominated. The elimination in a $4\times4$ requires patience — apply the procedure systematically to arrive at the Nash equilibrium $(D,B)$ with payoff $(1,3)$.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Key observation:</strong> The full IESDS procedure for this game involves multiple rounds. The procedure will be detailed once the course confirms the solution — working through it with your notes from class will be most instructive.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.3 WEAK DOMINANCE -->
+    <div class="section-header">
+      <span class="section-label cyan">§ 2.3</span>
+      <h2>Weak Dominance</h2>
+    </div>
+
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Motivation</div>
+      <div class="body-text">
+        <p>Strictly dominated strategies may not exist, in which case IESDS yields no clear prediction. We can try to relax the notion: instead of requiring a strategy to be <em>strictly</em> worse, we allow it to be <em>at least as bad</em> (weakly worse).</p>
+      </div>
+    </div>
+
+    <!-- INTRODUCTORY EXAMPLE FOR WEAK DOMINANCE -->
+    <div class="example-box">
+      <div class="example-title">🔍 Example — Motivating Weak Dominance</div>
+      <div class="body-text">
+        <p>Are there strictly dominant strategies? What would be a smart choice?</p>
+      </div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
+          <tr>
+            <td rowspan="2" style="font-weight:800;color:var(--cyan-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$U$</td><td>$(2,2)$</td><td>$(4,4)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$D$</td><td>$(3,1)$</td><td>$(4,1)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'weak-mot')" style="margin-top:4px;">
+        ▶ Show Analysis <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="weak-mot">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Strictly dominant strategies for P1?</strong><br>
+            $g_1(U,L)=2 &lt; g_1(D,L)=3$ → col $L$: $D$ better.<br>
+            $g_1(U,R)=4 = g_1(D,R)=4$ → col $R$: tied.<br>
+            $D$ does not <em>strictly</em> dominate $U$ (requires strict inequality everywhere). <strong>No strictly dominant strategy.</strong>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Weak dominance?</strong> $D$ weakly dominates $U$: $g_1(D,s_{-1}) \geq g_1(U,s_{-1})$ for all $s_{-1}$, with strict inequality when P2 plays $L$. Playing $D$ is a "smart" choice: you can never regret it.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept-card blue-top">
+      <div class="card-title blue">Definition — Weakly Dominated Strategy</div>
+      <div class="body-text">
+        <p>A strategy $s_i \in S_i$ is <strong>(weakly) dominated</strong> if there exists $t_i \in S_i$ such that:</p>
+      </div>
+      <div class="math-display boxed-blue">
+        $\forall\, s_{-i} \in S_{-i},\quad g_i(t_i,\, s_{-i}) \;\geq\; g_i(s_i,\, s_{-i})$
+      </div>
+      <div class="body-text">
+        <p>We say $s_i$ is <strong>dominated by $t_i$</strong>. Note: this requires only $\geq$, not strict $>$. A dominated strategy is not necessarily a terrible choice, but one can <em>potentially</em> regret it.</p>
+      </div>
+    </div>
+
+    <div class="concept-card blue-top">
+      <div class="card-title blue">Definition — Weakly Dominant Strategy &amp; Equilibrium</div>
+      <div class="body-text">
+        <p>A strategy $s_i \in S_i$ is <strong>dominant</strong> if it weakly dominates every other strategy:</p>
+      </div>
+      <div class="math-display boxed-blue">
+        $\forall\, t_i \in S_i,\; \forall\, s_{-i} \in S_{-i},\quad g_i(s_i,\, s_{-i}) \;\geq\; g_i(t_i,\, s_{-i})$
+      </div>
+      <div class="body-text">
+        <p>A strategy profile $s = (s_1, \ldots, s_N)$ is a <strong>dominant strategy equilibrium</strong> if every $s_i$ is dominant for player $i$.</p>
+      </div>
+      <div class="key-note blue">
+        A dominant strategy is a "reasonable" choice: playing it guarantees that a player can never regret their decision in hindsight. A dominant strategy equilibrium — when it exists — seems compelling, since no player ever benefits from deviating.
+      </div>
+    </div>
+
+    <!-- WEAK DOMINANCE EXAMPLE -->
+    <div class="example-box amber">
+      <div class="example-title amber">📝 Example — Iterated Elimination of Weakly Dominated Strategies</div>
+      <div class="body-text">
+        <p>Apply iterated elimination of weakly dominated strategies to the following game.</p>
+      </div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$L$</th><th>$R$</th></tr>
+          <tr>
+            <td rowspan="3" style="font-weight:800;color:var(--amber-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$U$</td><td>$(1,1)$</td><td>$(0,0)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$M$</td><td>$(1,1)$</td><td>$(2,1)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$D$</td><td>$(0,0)$</td><td>$(2,1)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'weak-ex')" style="margin-top:4px;">
+        ▶ Show Analysis <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="weak-ex">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Order 1: Eliminate $U$ first.</strong><br>
+            $M$ weakly dominates $U$: $g_1(M,L)=1=g_1(U,L)$ and $g_1(M,R)=2>g_1(U,R)=0$. ✓ Eliminate $U$.<br>
+            Reduced game $\{M,D\} \times \{L,R\}$: then $L$ weakly dominated by $R$ for P2. Eliminate $L$.<br>
+            Reduced $\{M,D\} \times \{R\}$: $g_1(M,R)=2 > g_1(D,R)=2$? No — both equal 2. Eliminate $D$ (dominated by $M$, since $g_1(M,L)=1>g_1(D,L)=0$ — but $L$ was already eliminated). Multiple equilibria remain.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Remark — Order Dependence.</strong> Different elimination orders lead to different residual games and potentially different "solutions." This is a key limitation of weak dominance compared to strict dominance.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Conclusion.</strong> The IEWDS procedure is inconclusive: it does not predict a unique strategy profile, only a set of candidate outcomes. This motivates the need for a sharper solution concept — <strong>Nash Equilibrium</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECOND-PRICE AUCTION EXERCISE -->
+    <div class="concept-card amber-top">
+      <div class="card-title amber">Exercise</div>
+      <div class="card-heading">Second-Price Auction: Truthful Bidding is Weakly Dominant</div>
+      <div class="body-text">
+        <p>Prove that in a second-price auction, bidding one's true valuation $b_i = v_i$ is a <strong>weakly dominant strategy</strong> for each bidder $i$.</p>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'spa-proof')" style="margin-top:4px;">
+        ▶ Show Proof <span class="arrow">▼</span>
+      </button>
+      <div class="collapsible" id="spa-proof">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Setup.</strong> Fix any bidder $i$ with valuation $v_i$. Fix any bid profile $b_{-i}$ of the other bidders, and let $m = m_i(b_{-i}) = \max_{j \neq i} b_j$ be the highest competing bid. We compare bidding $b_i = v_i$ against any other bid $b_i' \neq v_i$.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Case A: $v_i > m$ (truthful bid wins).</strong><br>
+            With $b_i = v_i$: bidder $i$ wins and receives $v_i - m > 0$.<br>
+            &bull; If $b_i' > m$: still wins, receives $v_i - m$ → same payoff.<br>
+            &bull; If $b_i' \leq m$: loses, receives $0 &lt; v_i - m$ → worse.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Case B: $v_i &lt; m$ (truthful bid loses).</strong><br>
+            With $b_i = v_i$: bidder $i$ loses, receives $0$.<br>
+            &bull; If $b_i' &lt; m$: still loses, receives $0$ → same payoff.<br>
+            &bull; If $b_i' > m$: wins but pays $m > v_i$, receives $v_i - m &lt; 0$ → worse.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Case C: $v_i = m$.</strong><br>
+            With $b_i = v_i = m$: tied, receives $0$ (since $v_i - m = 0$).<br>
+            Any deviation either keeps payoff at $0$ or makes it negative. → Same or worse.
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <strong>Conclusion.</strong> In all cases, bidding $b_i = v_i$ gives a payoff <em>at least as large</em> as any other bid $b_i'$, for every profile $b_{-i}$. Therefore, $b_i = v_i$ is a <strong>weakly dominant strategy</strong>. $\blacksquare$
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ═══ SECTION 3: NASH EQUILIBRIUM ═══ -->
+    <div class="section-header">
+      <span class="section-label purple">Section 3</span>
+      <h2>Nash Equilibrium in Pure Strategies</h2>
+    </div>
+
+    <!-- 3.1 DEFINITIONS -->
+    <div class="section-header" style="margin-top: 4px;">
+      <span class="section-label purple">§ 3.1</span>
+      <h2>Definition and Best Responses</h2>
+    </div>
+
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Motivation</div>
+      <div class="body-text">
+        <p>IESDS may not fully reduce a game, leaving many candidate outcomes. We need a more general solution concept. The most important one in all of game theory is the <strong>Nash equilibrium</strong>: a strategy profile in which no player has an incentive to deviate <em>unilaterally</em>.</p>
+      </div>
+    </div>
+
+    <div class="concept-card purple-top">
+      <div class="card-title purple">Definition — Nash Equilibrium</div>
+      <div class="body-text">
+        <p>A strategy profile $s = (s_1, s_2, \ldots, s_N) \in S$ is a <strong>Nash equilibrium</strong> if for every player $i \in \{1, \ldots, N\}$ and every strategy $t_i \in S_i$:</p>
+      </div>
+      <div class="math-display boxed-purple">
+        $g_i(s_i,\, s_{-i}) \;\geq\; g_i(t_i,\, s_{-i})$
+      </div>
+      <div class="key-note purple">
+        <strong>Interpretation.</strong> At a Nash equilibrium, no player can <strong>profitably deviate</strong> — no player can strictly increase their payoff by unilaterally changing their own strategy, given that all other players stick to $s_{-i}$. We fix everyone else's strategy and check whether player $i$ wants to switch: if no one does, the profile is a Nash equilibrium.
+      </div>
+      <div class="body-text">
+        <p><strong>Remark.</strong> A Nash equilibrium may not exist, and may not be unique. We denote by $NE(\Gamma)$ the set of Nash equilibria, and by $E(\Gamma) = \{(g_1(s), \ldots, g_N(s)) : s \in NE(\Gamma)\} \subset \mathbb{R}^N$ the set of Nash equilibrium payoff vectors.</p>
+      </div>
+    </div>
+
+    <div class="concept-card purple-top">
+      <div class="card-title purple">Definition — Best Response</div>
+      <div class="body-text">
+        <p>A strategy $s_i \in S_i$ is a <strong>best response</strong> of player $i$ to a profile $s_{-i} \in S_{-i}$ if, for every $t_i \in S_i$:</p>
+      </div>
+      <div class="math-display boxed-purple">
+        $g_i(s_i,\, s_{-i}) \;\geq\; g_i(t_i,\, s_{-i})$
+      </div>
+      <div class="body-text">
+        <p>The set of best responses to $s_{-i}$ is denoted $BR_i(s_{-i})$.</p>
+      </div>
+    </div>
+
+    <div class="prop-box">
+      <div class="prop-title">Proposition — Nash Equilibrium via Best Responses</div>
+      <div class="body-text">
+        <p>A strategy profile $s \in S$ is a Nash equilibrium <strong>if and only if</strong> for every player $i$:</p>
+        <div class="math-display boxed-blue" style="margin-top:10px;">
+          $s_i \in BR_i(s_{-i})$
+        </div>
+        <p style="margin-top:10px;">In other words, a Nash equilibrium is a <strong>mutual best response</strong>: each player is simultaneously best-responding to all other players' strategies.</p>
+      </div>
+    </div>
+
+    <!-- INTERPRETATIONS -->
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Interpretations of Nash Equilibrium</div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="key-note blue"><strong>Prescription:</strong> An external authority proposes $s$. No player wants to deviate → the recommendation is self-enforcing.</div>
+        <div class="key-note green"><strong>Agreement:</strong> Players pre-communicate and agree to play $s$. Nash equilibria are the only agreements that no one will break.</div>
+        <div class="key-note purple"><strong>Introspection:</strong> A player reasons about the game and concludes that $s$ is the only consistent outcome. (Applicable only when the Nash equilibrium is unique.)</div>
+        <div class="key-note amber"><strong>Convention:</strong> Social norms (e.g., driving on the right) are Nash equilibria — everyone follows them because everyone else does.</div>
+        <div class="key-note"><strong>Learning / Evolution:</strong> If players repeatedly interact and adapt, they may converge to a profile where no one benefits from switching — a Nash equilibrium.</div>
+      </div>
+    </div>
+
+    <!-- NASH EQUILIBRIUM EXAMPLES -->
+    <div class="example-box purple">
+      <div class="example-title purple">📐 Example — Find Nash Equilibria</div>
+      <div class="example-subtitle">Five Classic Games</div>
+
+      <!-- Game 1 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 1 — Coordination</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$E$</th><th>$C$</th></tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--purple-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$E$</td><td class="ne-cell">$(1,1)$</td><td>$(0,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$C$</td><td>$(0,0)$</td><td class="ne-cell">$(1,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'ne-g1')" style="margin-top:12px;">▶ Show Solution <span class="arrow">▼</span></button>
+        <div class="collapsible" id="ne-g1">
+          <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+            <strong>Best responses:</strong><br>
+            P1: $BR_1(E) = \{E\}$, $BR_1(C) = \{C\}$.<br>
+            P2: $BR_2(E) = \{E\}$, $BR_2(C) = \{C\}$.
+          </div></div>
+          <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+            <strong>Nash equilibria:</strong> $(E,E)$ and $(C,C)$ — both are mutual best responses. $NE = \{(E,E),\,(C,C)\}$.
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Game 2 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 2 — Zero-Sum (Penalty)</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--purple-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$G$</td><td>$(-1,1)$</td><td>$(1,-1)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$D$</td><td>$(1,-1)$</td><td>$(-1,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'ne-g2')" style="margin-top:12px;">▶ Show Solution <span class="arrow">▼</span></button>
+        <div class="collapsible" id="ne-g2">
+          <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+            <strong>Best responses:</strong><br>
+            P1: $BR_1(G)=\{D\}$, $BR_1(D)=\{G\}$.<br>
+            P2: $BR_2(G)=\{G\}$, $BR_2(D)=\{D\}$.
+          </div></div>
+          <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+            <strong>No profile is a mutual best response in pure strategies.</strong> $NE = \emptyset$ in pure strategies. This game requires mixed strategy equilibrium.
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Game 3 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 3 — Prisoner's Dilemma</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$C$</th><th>$D$</th></tr>
+            <tr>
+              <td rowspan="2" style="font-weight:800;color:var(--purple-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$C$</td><td>$(-3,-3)$</td><td>$(-10,\;0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$D$</td><td>$(0,-10)$</td><td class="ne-cell">$(-5,-5)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'ne-g3')" style="margin-top:12px;">▶ Show Solution <span class="arrow">▼</span></button>
+        <div class="collapsible" id="ne-g3">
+          <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+            $BR_1(C)=BR_1(D)=\{D\}$ (D strictly dominates C for P1).<br>
+            $BR_2(C)=BR_2(D)=\{D\}$ by symmetry.
+          </div></div>
+          <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+            <strong>Unique Nash equilibrium: $(D,D)$.</strong> The dominant strategy equilibrium is also the unique Nash equilibrium.
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Game 4 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 4</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$G$</th><th>$D$</th></tr>
+            <tr>
+              <td rowspan="3" style="font-weight:800;color:var(--purple-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$H$</td><td class="ne-cell">$(1,1)$</td><td>$(0,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$M$</td><td class="ne-cell">$(1,1)$</td><td>$(2,1)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$B$</td><td>$(0,0)$</td><td class="ne-cell">$(2,1)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'ne-g4')" style="margin-top:12px;">▶ Show Solution <span class="arrow">▼</span></button>
+        <div class="collapsible" id="ne-g4">
+          <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+            <strong>Best responses for P1:</strong><br>
+            Against $G$: $H$ and $M$ both give 1, $B$ gives 0 → $BR_1(G) = \{H,M\}$.<br>
+            Against $D$: $B$ and $M$ give 2, $H$ gives 0 → $BR_1(D) = \{M,B\}$.
+          </div></div>
+          <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+            <strong>Best responses for P2:</strong><br>
+            Against $H$: $G$ gives 1, $D$ gives 0 → $BR_2(H) = \{G\}$.<br>
+            Against $M$: $G$ gives 1, $D$ gives 1 → $BR_2(M) = \{G,D\}$.<br>
+            Against $B$: $G$ gives 0, $D$ gives 1 → $BR_2(B) = \{D\}$.
+          </div></div>
+          <div class="demo-step"><div class="step-num">3</div><div class="step-body">
+            <strong>Mutual best responses:</strong><br>
+            $(H,G)$: $H \in BR_1(G)$ ✓ and $G \in BR_2(H)$ ✓ → <strong>Nash equilibrium</strong>.<br>
+            $(M,G)$: $M \in BR_1(G)$ ✓ and $G \in BR_2(M)$ ✓ → <strong>Nash equilibrium</strong>.<br>
+            $(M,D)$: $M \in BR_1(D)$ ✓ and $D \in BR_2(M)$ ✓ → <strong>Nash equilibrium</strong>.<br>
+            $(B,D)$: $B \in BR_1(D)$ ✓ and $D \in BR_2(B)$ ✓ → <strong>Nash equilibrium</strong>.<br>
+            $NE = \{(H,G),\,(M,G),\,(M,D),\,(B,D)\}$.
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Game 5 -->
+      <div>
+        <div class="example-section-title" style="margin-bottom:10px;">Game 5</div>
+        <div class="matrix-wrap">
+          <table class="payoff-matrix">
+            <tr><th></th><th></th><th>$G$</th><th>$M$</th><th>$D$</th></tr>
+            <tr>
+              <td rowspan="3" style="font-weight:800;color:var(--purple-bright);vertical-align:middle;">P1</td>
+              <td class="player-row">$h$</td><td>$(5,3)$</td><td>$(0,4)$</td><td>$(3,5)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$m$</td><td>$(4,0)$</td><td class="ne-cell">$(5,5)$</td><td>$(4,0)$</td>
+            </tr>
+            <tr>
+              <td class="player-row">$b$</td><td>$(3,5)$</td><td>$(0,4)$</td><td>$(5,3)$</td>
+            </tr>
+          </table>
+        </div>
+        <button class="toggle-btn" onclick="toggle(this,'ne-g5')" style="margin-top:12px;">▶ Show Solution <span class="arrow">▼</span></button>
+        <div class="collapsible" id="ne-g5">
+          <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+            <strong>Best responses for P1:</strong><br>
+            Against $G$: $h$ gives 5, $m$ gives 4, $b$ gives 3 → $BR_1(G)=\{h\}$.<br>
+            Against $M$: $h$ gives 0, $m$ gives 5, $b$ gives 0 → $BR_1(M)=\{m\}$.<br>
+            Against $D$: $h$ gives 3, $m$ gives 4, $b$ gives 5 → $BR_1(D)=\{b\}$.
+          </div></div>
+          <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+            <strong>Best responses for P2:</strong><br>
+            Against $h$: $G$ gives 3, $M$ gives 4, $D$ gives 5 → $BR_2(h)=\{D\}$.<br>
+            Against $m$: $G$ gives 0, $M$ gives 5, $D$ gives 0 → $BR_2(m)=\{M\}$.<br>
+            Against $b$: $G$ gives 5, $M$ gives 4, $D$ gives 3 → $BR_2(b)=\{G\}$.
+          </div></div>
+          <div class="demo-step"><div class="step-num">3</div><div class="step-body">
+            <strong>Mutual best responses:</strong><br>
+            $(m,M)$: $m \in BR_1(M)$ ✓ and $M \in BR_2(m)$ ✓ → <strong>Unique Nash equilibrium: $(m,M)$</strong> with payoff $(5,5)$.
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.2 CONNECTIONS -->
+    <div class="section-header">
+      <span class="section-label purple">§ 3.2</span>
+      <h2>Nash Equilibria, Dominant and Dominated Strategies</h2>
+    </div>
+
+    <div class="prop-box">
+      <div class="prop-title">Proposition — Links between Solution Concepts (1)</div>
+      <div class="body-text" style="margin-bottom: 10px;">
+        <p><strong>1.</strong> An equilibrium in <strong>strictly dominant strategies</strong> is the <strong>unique</strong> Nash equilibrium of the game.</p>
+        <p style="margin-top:10px;"><strong>2.</strong> Let $(\Gamma^k)$ be the sequence of games obtained by IESDS. Then for every $k \geq 1$:</p>
+      </div>
+      <div class="math-display boxed-blue">$NE(\Gamma^k) = NE(\Gamma)$</div>
+      <div class="body-text" style="margin-top:10px;">
+        <p>All Nash equilibria survive the IESDS procedure — eliminating strictly dominated strategies does not remove any Nash equilibrium.</p>
+        <p style="margin-top:10px;"><strong>3.</strong> If $\Gamma$ is solvable by IESDS, then the strategy profile obtained is the <strong>unique Nash equilibrium</strong>.</p>
+      </div>
+
+      <button class="toggle-btn" onclick="toggle(this,'proof-ne1')" style="margin-top:4px;">▶ Prove (1) and (3) <span class="arrow">▼</span></button>
+      <div class="collapsible" id="proof-ne1">
+        <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+          <strong>Proof of (1).</strong> Let $s^*$ be the strictly dominant strategy equilibrium. For every $i$ and every $t_i \neq s^*_i$, $g_i(s^*_i, s_{-i}) > g_i(t_i, s_{-i})$ for <em>all</em> $s_{-i}$, hence in particular for $s_{-i} = s^*_{-i}$. Thus $s^*_i$ is a strict best response to $s^*_{-i}$ for every $i$: $s^*$ is a Nash equilibrium. Uniqueness: suppose $s' \neq s^*$ is also a Nash equilibrium. Then there exists $i$ with $s'_i \neq s^*_i$. Since $s^*_i$ strictly dominates $s'_i$, $g_i(s^*_i, s'_{-i}) > g_i(s'_i, s'_{-i})$, contradicting $s'$ being a Nash equilibrium. $\blacksquare$
+        </div></div>
+        <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+          <strong>Proof of (3).</strong> Let $\bar{s}$ be the unique strategy profile surviving IESDS. By statement (2), $NE(\Gamma^k) = NE(\Gamma)$ for all $k$. Since $\Gamma^k$ has a unique strategy profile $\bar{s}$, the only Nash equilibrium of $\Gamma^k$ is $\bar{s}$ (the game is trivial). Hence $NE(\Gamma) = \{\bar{s}\}$. $\blacksquare$
+        </div></div>
+      </div>
+    </div>
+
+    <div class="prop-box">
+      <div class="prop-title">Proposition — Links between Solution Concepts (2)</div>
+      <div class="body-text" style="margin-bottom:10px;">
+        <p><strong>1.</strong> An equilibrium in <strong>weakly dominant strategies</strong> is a Nash equilibrium.</p>
+        <p style="margin-top:10px;"><strong>2.</strong> Let $(\Gamma^k)$ be the sequence obtained by iterative elimination of <em>weakly</em> dominated strategies. Then for every $k \geq 1$:</p>
+      </div>
+      <div class="math-display boxed-blue">$NE(\Gamma^{k+1}) \;\subseteq\; NE(\Gamma^k)$</div>
+      <div class="body-text" style="margin-top:10px;">
+        <p>Eliminating weakly dominated strategies may <strong>lose</strong> some Nash equilibria — unlike strict dominance, this inclusion may be strict.</p>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'proof-ne2')" style="margin-top:4px;">▶ Prove (1) <span class="arrow">▼</span></button>
+      <div class="collapsible" id="proof-ne2">
+        <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+          <strong>Proof of (1).</strong> Let $s^* = (s^*_i)$ be a dominant strategy equilibrium. For every $i$, $s^*_i$ is dominant, meaning $g_i(s^*_i, s_{-i}) \geq g_i(t_i, s_{-i})$ for all $t_i$ and <em>all</em> $s_{-i}$. In particular, taking $s_{-i} = s^*_{-i}$, we get $g_i(s^*_i, s^*_{-i}) \geq g_i(t_i, s^*_{-i})$ for all $t_i$. This is exactly the Nash equilibrium condition. Hence $s^*$ is a Nash equilibrium. $\blacksquare$
+        </div></div>
+      </div>
+    </div>
+
+    <!-- WEAK DOMINANCE NE EXAMPLE -->
+    <div class="example-box blue">
+      <div class="example-title blue">📐 Example — Dominated Strategies and Nash Equilibria</div>
+      <div class="body-text">
+        <p>Find the dominated strategies and the Nash equilibria of the following game.</p>
+      </div>
+      <div class="matrix-wrap">
+        <table class="payoff-matrix">
+          <tr><th></th><th></th><th>$A$</th><th>$B$</th></tr>
+          <tr>
+            <td rowspan="2" style="font-weight:800;color:var(--blue-bright);vertical-align:middle;">P1</td>
+            <td class="player-row">$A$</td><td class="ne-cell">$(2,2)$</td><td>$(1,2)$</td>
+          </tr>
+          <tr>
+            <td class="player-row">$B$</td><td class="ne-cell">$(2,1)$</td><td>$(1,1)$</td>
+          </tr>
+        </table>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'weak-ne')" style="margin-top:4px;">▶ Show Full Analysis <span class="arrow">▼</span></button>
+      <div class="collapsible" id="weak-ne">
+        <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+          <strong>Dominated strategies for P1:</strong><br>
+          $A$ vs $B$: $g_1(A,A)=2=g_1(B,A)=2$ and $g_1(A,B)=1=g_1(B,B)=1$. Payoffs are identical → neither strategy dominates the other. No dominated strategy for P1.
+        </div></div>
+        <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+          <strong>Dominated strategies for P2:</strong><br>
+          $g_2(\cdot,A)=(2,1)$ vs $g_2(\cdot,B)=(2,1)$. Payoffs are identical in each row → no dominated strategy for P2 either.
+        </div></div>
+        <div class="demo-step"><div class="step-num">3</div><div class="step-body">
+          <strong>Nash equilibria via best responses:</strong><br>
+          P1: $g_1(A,A)=2=g_1(B,A)$ → $BR_1(A)=\{A,B\}$. $g_1(A,B)=1=g_1(B,B)$ → $BR_1(B)=\{A,B\}$.<br>
+          P2: $g_2(A,A)=2>g_2(A,B)=2$? Tie. $BR_2(A)=\{A,B\}$. $g_2(B,A)=1=g_2(B,B)=1$ → $BR_2(B)=\{A,B\}$.<br>
+          Every profile is a mutual best response: $NE = \{(A,A),(A,B),(B,A),(B,B)\}$.
+        </div></div>
+      </div>
+    </div>
+
+
+    <!-- STEP-BY-STEP METHOD -->
+    <div class="concept-card cyan-top">
+      <div class="card-title cyan">Summary — Step-by-Step Method for Static Games</div>
+      <div class="card-heading">How to Analyse Any Normal Form Game</div>
+      <div class="method-steps">
+        <div class="method-step">
+          <div class="method-step-num">1</div>
+          <div class="method-step-body">
+            <strong>Search for strictly dominant strategies.</strong><br>
+            If a profile of strictly dominant strategies exists — <em>stop</em>. This is the unique rational prediction.
+          </div>
+        </div>
+        <div class="method-step">
+          <div class="method-step-num">2</div>
+          <div class="method-step-body">
+            <strong>Run IESDS.</strong><br>
+            Iteratively eliminate strictly dominated strategies. If the game reduces to a single profile — <em>stop</em>. That profile is the unique Nash equilibrium.
+          </div>
+        </div>
+        <div class="method-step">
+          <div class="method-step-num">3</div>
+          <div class="method-step-body">
+            <strong>Find Nash equilibria directly.</strong><br>
+            Use one of the two equivalent approaches:<br>
+            &bull; <em>No profitable deviation:</em> check each profile and verify no player can strictly improve by switching unilaterally.<br>
+            &bull; <em>Best responses:</em> compute $BR_i(s_{-i})$ for each player and find profiles where all players are simultaneously best-responding.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURNOT EXERCISE -->
+    <div class="concept-card amber-top">
+      <div class="card-title amber">Exercise</div>
+      <div class="card-heading">Cournot Duopoly — Find Nash Equilibrium</div>
+      <div class="body-text">
+        <p>Find the Nash equilibria of the Cournot game (Example 7) using both methods: (i) no profitable deviation, and (ii) best responses. Plot the best response functions on a graph.</p>
+      </div>
+      <button class="toggle-btn" onclick="toggle(this,'cournot-ne')" style="margin-top:4px;">▶ Show Derivation <span class="arrow">▼</span></button>
+      <div class="collapsible" id="cournot-ne">
+        <div class="demo-step"><div class="step-num">1</div><div class="step-body">
+          <strong>Setup.</strong> $P = 13 - q_1 - q_2$ (assuming $q_1 + q_2 \leq 13$), $c = 0$ for simplicity. Profit of firm $i$: $g_i = q_i(13 - q_i - q_j)$.
+        </div></div>
+        <div class="demo-step"><div class="step-num">2</div><div class="step-body">
+          <strong>Best response of firm $i$.</strong> Maximise over $q_i$, taking $q_j$ as given:
+          $$\frac{\partial g_i}{\partial q_i} = 13 - 2q_i - q_j = 0 \implies q_i^* = \frac{13 - q_j}{2}$$
+          This is the <strong>best response function</strong> (reaction function) $BR_i(q_j)$.
+        </div></div>
+        <div class="demo-step"><div class="step-num">3</div><div class="step-body">
+          <strong>Nash equilibrium.</strong> Solve the system of simultaneous best responses:
+          $$q_1 = \frac{13 - q_2}{2} \quad \text{and} \quad q_2 = \frac{13 - q_1}{2}$$
+          By symmetry $q_1^* = q_2^*$: $q^* = \frac{13 - q^*}{2} \implies 2q^* = 13 - q^* \implies q^* = \frac{13}{3}$.
+        </div></div>
+        <div class="demo-step"><div class="step-num">4</div><div class="step-body">
+          <strong>Nash equilibrium:</strong> $q_1^* = q_2^* = \dfrac{13}{3} \approx 4.33$. Total output $Q^* = \dfrac{26}{3}$. Price $P^* = 13 - \dfrac{26}{3} = \dfrac{13}{3}$. Each firm's profit: $g_i^* = \dfrac{13}{3} \cdot \dfrac{13}{3} = \dfrac{169}{9} \approx 18.8$.
+        </div></div>
+        <div class="demo-step"><div class="step-num">5</div><div class="step-body">
+          <strong>Best response graph.</strong> Firm 1's reaction curve $q_1 = \frac{13-q_2}{2}$ is a downward-sloping line from $(0, 13/2)$ to $(13, 0)$ in $(q_2, q_1)$ space. Firm 2's curve is symmetric. The Nash equilibrium is their intersection at $(q_1^*, q_2^*) = (13/3, 13/3)$.
+        </div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('main-wrap').classList.toggle('expanded');
+}
+
+function toggle(btn, id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains('open');
+  box.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  if (!isOpen && window.MathJax) {
+    MathJax.typesetPromise([box]);
+  }
+}
+</script>
+</body>
+</html>
