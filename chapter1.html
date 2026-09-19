@@ -56,6 +56,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 body { font-family:var(--font); background:var(--bg); color:var(--text); display:flex; min-height:100vh; -webkit-font-smoothing:antialiased; }
 
 /* ── SIDEBAR ── */
@@ -84,11 +85,43 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 .topbar { height:64px; background:rgba(9,14,23,0.9); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); position:sticky; top:0; z-index:100; display:flex; align-items:center; padding:0 28px; gap:16px; }
 .topbar-toggle { background:rgba(255,255,255,0.06); border:1px solid var(--border); color:var(--text); width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; flex-shrink:0; transition:.2s; }
 .topbar-toggle:hover { border-color:var(--cyan-border); color:var(--cyan); }
-.topbar-breadcrumb { color:var(--text-3); font-size:0.88rem; display:flex; align-items:center; gap:6px; }
+.topbar-breadcrumb { color:var(--text-3); font-size:0.86rem; display:flex; align-items:center; gap:6px; flex-shrink:0; }
 .topbar-breadcrumb .sep { opacity:.4; }
 .topbar-breadcrumb strong { color:var(--text); font-weight:700; }
-.topbar-pill { margin-left:auto; background:var(--cyan-muted); border:1px solid var(--cyan-border); color:var(--cyan-bright); padding:5px 14px; border-radius:999px; font-size:0.78rem; font-weight:700; display:flex; align-items:center; gap:7px; }
-.topbar-dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 7px var(--cyan); }
+
+/* ── SEGMENTED CHAPTER PROGRESS BAR ── */
+.chapter-progress-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  margin-left: 20px;
+  padding: 0 2px;
+}
+.progress-segment {
+  flex: 1;
+  height: 7px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.progress-segment:hover {
+  transform: scaleY(1.35);
+  filter: brightness(1.25);
+}
+.progress-segment.completed {
+  background: linear-gradient(90deg, #0284c7, #06b6d4);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.35);
+}
+.progress-segment.active {
+  background: linear-gradient(90deg, #38bdf8, #a78bfa);
+  border-color: rgba(167, 139, 250, 0.9);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 0 4px rgba(167, 139, 250, 0.4);
+}
 
 /* ── LAYOUT ── */
 .main-wrap { margin-left:var(--sidebar-width); flex:1; display:flex; flex-direction:column; transition:margin-left .3s; min-width:0; }
@@ -102,7 +135,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 .page-title-block p { color:var(--text-3); font-size:0.95rem; margin-top:7px; }
 
 /* ── SECTION HEADER ── */
-.section-header { display:flex; align-items:center; gap:14px; padding-bottom:14px; border-bottom:1px solid var(--border); margin-top:8px; }
+.section-header { display:flex; align-items:center; gap:14px; padding-bottom:14px; border-bottom:1px solid var(--border); margin-top:8px; scroll-margin-top:76px; }
 .section-label { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; padding:4px 12px; border-radius:999px; }
 .section-label.cyan { background:var(--cyan-muted); color:var(--cyan-bright); border:1px solid var(--cyan-border); }
 .section-label.blue { background:var(--blue-muted); color:var(--blue-bright); border:1px solid var(--blue-border); }
@@ -249,6 +282,14 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   .sidebar.open { transform:translateX(0); }
   .main-wrap { margin-left:0 !important; }
   .main-content { padding:24px 20px 40px; }
+  .topbar { padding:0 16px; gap:12px; }
+  .topbar-breadcrumb { font-size:0.8rem; max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .chapter-progress-bar { margin-left:12px; gap:4px; }
+  .progress-segment { height:5px; }
+}
+@media (max-width:600px) {
+  .topbar-breadcrumb { display:none; }
+  .chapter-progress-bar { margin-left:4px; }
 }
 </style>
 </head>
@@ -285,7 +326,16 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="topbar">
   <button class="topbar-toggle" onclick="toggleSidebar()">☰</button>
   <div class="topbar-breadcrumb">GAMETHEORY <span class="sep">›</span> <strong>Chapter 1 — Static Games with Perfect Information</strong></div>
-  <div class="topbar-pill"><span class="topbar-dot"></span>Pure Strategies</div>
+  <div class="chapter-progress-bar" id="chapterProgressBar" role="progressbar" aria-label="Chapter progress">
+    <div class="progress-segment active" data-index="0" aria-label="Subsection 1"></div>
+    <div class="progress-segment" data-index="1" aria-label="Subsection 2"></div>
+    <div class="progress-segment" data-index="2" aria-label="Subsection 3"></div>
+    <div class="progress-segment" data-index="3" aria-label="Subsection 4"></div>
+    <div class="progress-segment" data-index="4" aria-label="Subsection 5"></div>
+    <div class="progress-segment" data-index="5" aria-label="Subsection 6"></div>
+    <div class="progress-segment" data-index="6" aria-label="Subsection 7"></div>
+    <div class="progress-segment" data-index="7" aria-label="Subsection 8"></div>
+  </div>
 </div>
 
 <div class="main-content">
@@ -314,6 +364,11 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <div class="section-header">
   <span class="section-label cyan">Section 1</span>
   <h2>Normal Form Games</h2>
+</div>
+
+<div class="section-header subsection-target" style="margin-top:4px;" id="sec-1-1" data-subsection="§ 1.1">
+  <span class="section-label cyan">§ 1.1</span>
+  <h2>Definition &amp; Notation</h2>
 </div>
 
 <div class="concept-card blue-top">
@@ -362,8 +417,8 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 </div>
 
 <!-- 8 EXAMPLES -->
-<div class="section-header" style="margin-top:4px;">
-  <span class="section-label example">Examples</span>
+<div class="section-header subsection-target" style="margin-top:4px;" id="sec-1-2" data-subsection="§ 1.2">
+  <span class="section-label cyan">§ 1.2</span>
   <h2>Classic Normal Form Games</h2>
 </div>
 
@@ -714,7 +769,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 </div>
 
 <!-- §2.1 STRICT DOMINANCE -->
-<div class="section-header" style="margin-top:4px;">
+<div class="section-header subsection-target" style="margin-top:4px;" id="sec-2-1" data-subsection="§ 2.1">
   <span class="section-label cyan">§ 2.1</span>
   <h2>Strict Dominance</h2>
 </div>
@@ -881,7 +936,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   </div>
 </div>
 <!-- §2.2 IESDS -->
-<div class="section-header">
+<div class="section-header subsection-target" id="sec-2-2" data-subsection="§ 2.2">
   <span class="section-label cyan">§ 2.2</span>
   <h2>Iterated Elimination of Strictly Dominated Strategies (IESDS)</h2>
 </div>
@@ -1077,7 +1132,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 
 <!-- §2.3 WEAK DOMINANCE -->
-<div class="section-header">
+<div class="section-header subsection-target" id="sec-2-3" data-subsection="§ 2.3">
   <span class="section-label cyan">§ 2.3</span>
   <h2>Weak Dominance</h2>
 </div>
@@ -1220,7 +1275,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
   <h2>Nash Equilibrium in Pure Strategies</h2>
 </div>
 
-<div class="section-header" style="margin-top:4px;">
+<div class="section-header subsection-target" style="margin-top:4px;" id="sec-3-1" data-subsection="§ 3.1">
   <span class="section-label purple">§ 3.1</span>
   <h2>Definitions &amp; Best Response</h2>
 </div>
@@ -1281,7 +1336,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 
 <!-- §3.2 NASH EXAMPLES -->
-<div class="section-header">
+<div class="section-header subsection-target" id="sec-3-2" data-subsection="§ 3.2">
   <span class="section-label purple">§ 3.2</span>
   <h2>Finding Nash Equilibria — Practice</h2>
 </div>
@@ -1480,7 +1535,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 
 <!-- §3.3 CONNECTIONS -->
-<div class="section-header">
+<div class="section-header subsection-target" id="sec-3-3" data-subsection="§ 3.3">
   <span class="section-label purple">§ 3.3</span>
   <h2>Links Between Solution Concepts</h2>
 </div>
@@ -1563,7 +1618,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 <!-- ═══════════════════════════════════════ -->
 <!--  FINAL REVISION MAP                   -->
 <!-- ═══════════════════════════════════════ -->
-<div class="section-header">
+<div class="section-header" id="sec-revision">
   <span class="section-label green">Revision</span>
   <h2>Master Revision Map — Solving Any Static Game</h2>
 </div>
@@ -1649,6 +1704,76 @@ function toggle(btn,id){
   box.classList.toggle('open',!isOpen);
   btn.classList.toggle('open',!isOpen);
   if(!isOpen&&window.MathJax){MathJax.typesetPromise([box]);}
+}
+
+/* ── CHAPTER PROGRESS BAR LOGIC ── */
+function initChapterProgress(){
+  const container = document.getElementById('chapterProgressBar');
+  if(!container) return;
+
+  const subsections = Array.from(document.querySelectorAll('.subsection-target'));
+  const revHeader = document.getElementById('sec-revision');
+  if(subsections.length === 0) return;
+
+  container.innerHTML = '';
+  const segments = subsections.map((sec, idx) => {
+    const seg = document.createElement('div');
+    seg.className = 'progress-segment' + (idx === 0 ? ' active' : '');
+    seg.setAttribute('role', 'button');
+    seg.setAttribute('tabindex', '0');
+    seg.setAttribute('aria-label', `Go to subsection ${idx + 1}`);
+    const jump = () => { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    seg.addEventListener('click', jump);
+    seg.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jump(); } });
+    container.appendChild(seg);
+    return seg;
+  });
+
+  function updateProgress(){
+    const scrollY = window.scrollY || window.pageYOffset;
+    const windowH = window.innerHeight;
+    const totalH = document.documentElement.scrollHeight;
+    const isAtBottom = (windowH + scrollY) >= (totalH - 60);
+
+    let inRevision = false;
+    if(revHeader){
+      const r = revHeader.getBoundingClientRect();
+      if(r.top <= 140) inRevision = true;
+    }
+
+    if(isAtBottom || inRevision){
+      segments.forEach(seg => { seg.className = 'progress-segment completed'; });
+      return;
+    }
+
+    let activeIdx = 0;
+    for(let i = 0; i < subsections.length; i++){
+      const rect = subsections[i].getBoundingClientRect();
+      if(rect.top <= 140){
+        activeIdx = i;
+      }
+    }
+
+    segments.forEach((seg, idx) => {
+      if(idx < activeIdx){
+        seg.className = 'progress-segment completed';
+      } else if(idx === activeIdx){
+        seg.className = 'progress-segment active';
+      } else {
+        seg.className = 'progress-segment';
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initChapterProgress);
+} else {
+  initChapterProgress();
 }
 </script>
 </body>
