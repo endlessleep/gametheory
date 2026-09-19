@@ -754,13 +754,44 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 
 <div class="concept-card cyan-top">
   <div class="card-title cyan">Comparison: Dominated vs. Dominant</div>
-  <table class="comparison-table">
-    <tr><th>Property</th><th>Strictly Dominated</th><th>Strictly Dominant</th></tr>
-    <tr><td>Definition</td><td>$\exists\, t_i$ that is strictly better against all $s_{-i}$</td><td>Strictly better than <em>all</em> $t_i \neq s_i$ against all $s_{-i}$</td></tr>
-    <tr><td>Prescription</td><td>Never play it</td><td>Always play it</td></tr>
-    <tr><td>Existence</td><td>May not exist</td><td>May not exist</td></tr>
-    <tr><td>Uniqueness</td><td>Not unique (multiple strategies can be dominated)</td><td><strong>Unique</strong> if it exists</td></tr>
-  </table>
+  <div class="matrix-wrap">
+    <table class="comparison-table">
+      <tr><th>Property</th><th>Strictly Dominated ($s_i$)</th><th>Strictly Dominant ($s_i$)</th></tr>
+      <tr>
+        <td>Intuitive Definition</td>
+        <td>
+          \[
+          \boxed{\exists\, t_i \text{ that is strictly better than } s_i \text{ for every } s_{-i}}
+          \]
+        </td>
+        <td>
+          \[
+          \boxed{s_i \text{ is strictly better than every } t_i \neq s_i \text{ for every } s_{-i}}
+          \]
+        </td>
+      </tr>
+      <tr>
+        <td>Formal Condition</td>
+        <td>$\exists\, t_i \in S_i \text{ s.t. } \forall\, s_{-i} \in S_{-i}, \; g_i(t_i, s_{-i}) > g_i(s_i, s_{-i})$</td>
+        <td>$\forall\, t_i \neq s_i, \; \forall\, s_{-i} \in S_{-i}, \; g_i(s_i, s_{-i}) > g_i(t_i, s_{-i})$</td>
+      </tr>
+      <tr>
+        <td>Rationality Prescription</td>
+        <td><strong>Never play it</strong> (eliminate from consideration)</td>
+        <td><strong>Always play it</strong> (unambiguous optimal choice)</td>
+      </tr>
+      <tr>
+        <td>Existence</td>
+        <td>May not exist in a given game</td>
+        <td>May not exist in a given game</td>
+      </tr>
+      <tr>
+        <td>Uniqueness</td>
+        <td><strong>Not unique</strong> (multiple strategies can be dominated)</td>
+        <td><strong>Unique</strong> (at most one can exist per player)</td>
+      </tr>
+    </table>
+  </div>
 </div>
 
 <div class="concept-card blue-top">
