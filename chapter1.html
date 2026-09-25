@@ -1250,6 +1250,25 @@ body { font-family:var(--font); background:var(--bg); color:var(--text); display
 </div>
 
 
+<div class="concept-card cyan-top">
+  <div class="card-title cyan">Economic Insight — Revenue Equivalence Theorem</div>
+  <div class="body-text">
+    <p>Under standard assumptions (risk-neutral bidders, independent private values, same valuation distribution):</p>
+    <ul>
+      <li><strong>First-price auction:</strong> winner pays their own bid. Bidders bid below their true value.</li>
+      <li><strong>Second-price auction:</strong> winner pays the second-highest bid. Bidding your true value is weakly dominant.</li>
+    </ul>
+    <p style="margin-top:8px;">The bidding strategies are different, but these effects compensate each other, so:</p>
+  </div>
+  <div class="math-display boxed">
+    $$\boxed{\mathbb{E}[\text{seller revenue in first price}] = \mathbb{E}[\text{seller revenue in second price}]}$$
+  </div>
+  <div class="key-note amber">
+    <strong>⚠️ Important:</strong> It means <em>same expected revenue</em>, not necessarily the same revenue in every individual auction.<br><br>
+    <em>Example:</em> With the same bidders, one particular first-price auction could generate €80 and the second-price auction €75, but on average over many auctions, revenues are the same under the theorem's assumptions.
+  </div>
+</div>
+
 <!-- ═══════════════════════════════════════ -->
 <!--  SECTION 3 — NASH EQUILIBRIUM         -->
 <!-- ═══════════════════════════════════════ -->
